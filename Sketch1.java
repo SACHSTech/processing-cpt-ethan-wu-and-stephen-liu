@@ -3,7 +3,7 @@ import processing.core.PImage;
 import java.util.Random;
 
 public class Sketch1 extends PApplet {
-	// Establish images that will be used
+  // Establish images that will be used
   PImage imgDad;
   PImage imgDadMad;
   PImage imgDadDead;
@@ -16,12 +16,14 @@ public class Sketch1 extends PApplet {
   PImage imgDoor;
   PImage imgDirectionSign;
 
-  // Delay Counters
-  int initialFrame1;
-  int initialFrame2;
+  // Image Variables
+  int imgDad_X = 600;
+  int imgDad_Y = 200;
 
-  int delayFrames1 = 60;
-  int delayFrames2 = 360;
+  // Text Variables
+  int text_X1 = 700;
+  int text_Y1 = 100;
+
 
   public void settings() {
     size(1200, 700);
@@ -41,16 +43,17 @@ public class Sketch1 extends PApplet {
 
   public void setup() {
     background(210, 255, 173);
-    initialFrame1 = frameCount;
-    initialFrame2 = frameCount;
   }
 
   public void draw() {
+    // Reset background to provide clean animation
+    background(210, 255, 173);
+
     // Call cutscene1 Method
     cutscene1();
 
     // Wipe Screen to get to next scene, and reset frame counter
-    if (frameCount - initialFrame2 >= delayFrames2) {
+    if (frameCount >= 360) {
       background(255);
       textSize(50);
       textAlign(CENTER, CENTER);
@@ -60,8 +63,11 @@ public class Sketch1 extends PApplet {
   
   public void cutscene1() {
     // Draw Images for the Beginning Cutscene
+    imgDoor.resize(200, 400);
+    image(imgDoor, 1000, 200);
+    
     imgDad.resize(300,300);
-    image(imgDad, 600, 200);
+    image(imgDad, imgDad_X, imgDad_Y);
     
     imgMom.resize(250,250);
     image(imgMom, 200, 200);
@@ -71,18 +77,20 @@ public class Sketch1 extends PApplet {
 
     imgDaughter.resize(150,150);
     image(imgDaughter,0,400);
-
-    imgDoor.resize(200, 400);
-    image(imgDoor, 1000, 200);
-
+  
     // Print out Dad's Dialogue
     textSize(30);
     textAlign(CENTER, CENTER);
-      // Use counter to delay the appearance of the text
-    if (frameCount - initialFrame1 >= delayFrames1) {
-      fill(0, 0, 0); // Red color
-      text("Bye Honey, Bye Kids, I Am Going To Get Dinner 👍", 700, 100);
+    // Use frameCount to delay appearance of text
+    if (frameCount >= 60) {
+      fill(0, 0, 0); 
+      text("Bye Honey, Bye Kids, I Am Going To Get Dinner 👍", text_X1, text_Y1);
     }
-  }
+    // Make the Dad move after 3 seconds from the start of the program
+    if (frameCount >= 300) {
+      imgDad_X += 5;
+      text_X1 += 800;
+    }
 
+  } 
 }
