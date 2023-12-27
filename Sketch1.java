@@ -14,7 +14,7 @@ public class Sketch1 extends PApplet {
   
   PImage imgHouse;
   PImage imgDoor;
-  PImage imgDirectionSign;
+  PImage imgPathway;
 
   // Image Variables
   int imgDad_X = 600;
@@ -23,6 +23,9 @@ public class Sketch1 extends PApplet {
   // Text Variables
   int text_X1 = 700;
   int text_Y1 = 100;
+
+  // Life Variables
+  int numLife = 1;
 
 
   public void settings() {
@@ -38,7 +41,7 @@ public class Sketch1 extends PApplet {
 
     imgHouse = loadImage("Family House.jpeg");
     imgDoor = loadImage("Door.png");
-    imgDirectionSign = loadImage("Direction Sign.png");
+    imgPathway = loadImage("Game Pathway.png");
   }
 
   public void setup() {
@@ -59,6 +62,10 @@ public class Sketch1 extends PApplet {
       textAlign(CENTER, CENTER);
       text("LEAVING THE HOUSE...", width / 2, height / 2);
     }
+
+    // Call cutscene2 Method
+    cutscene2();
+
   }
   
   public void cutscene1() {
@@ -91,6 +98,13 @@ public class Sketch1 extends PApplet {
       imgDad_X += 5;
       text_X1 += 800;
     }
-
   } 
+
+  public void cutscene2() {
+    if (frameCount >= 540) {
+    image(imgPathway, 0, 0);
+    imgDad.resize(50, 50);
+    image(imgDad, 600, 600);
+    }
+  }
 }
