@@ -6,6 +6,9 @@ public class Sketch extends PApplet {
 	PImage imgDad;
   PImage imgDadMad;
   PImage imgDadDead;
+  PImage imgDadSmall;
+  PImage imgDadMedium;
+  PImage imgDadMadSmall;
 	
   /**
    * Called once at the beginning of execution, put your size all in this method
@@ -15,7 +18,10 @@ public class Sketch extends PApplet {
     size(1200, 700);
     imgDad = loadImage("Dad Game Character.png");
     imgDadMad = loadImage("Dad Game Character Kishibe Rohan.png");
-    imgDadDead = loadImage("Dad Game Character Dead Lying Down");
+    imgDadDead = loadImage("Dad Game Character Dead Lying Down.png");
+    imgDadSmall = loadImage("Dad Game Character Small.png");
+    imgDadMedium = loadImage("Dad Game Character Medium.png");
+    imgDadMadSmall = loadImage("Dad Game Character Kishibe Rohan Small.png");
   }
 
   /** 

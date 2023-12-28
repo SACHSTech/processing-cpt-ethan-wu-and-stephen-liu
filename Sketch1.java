@@ -7,6 +7,9 @@ public class Sketch1 extends PApplet {
   PImage imgDad;
   PImage imgDadMad;
   PImage imgDadDead;
+  PImage imgDadSmall;
+  PImage imgDadMedium;
+  PImage imgDadMadSmall;
   
   PImage imgMom;
   PImage imgSon;
@@ -20,9 +23,14 @@ public class Sketch1 extends PApplet {
   int imgDad_X = 600;
   int imgDad_Y = 200;
 
+  int imgDadMedium_X = 500;
+  int imgDadMedium_Y = 500;
+
   // Text Variables
   int text_X1 = 700;
   int text_Y1 = 100;
+  int text_X2 = 600;
+  int text_Y2 = 650;
 
   // Life Variables
   int numLife = 1;
@@ -33,7 +41,10 @@ public class Sketch1 extends PApplet {
     // Load in images
     imgDad = loadImage("Dad Game Character.png");
     imgDadMad = loadImage("Dad Game Character Kishibe Rohan.png");
-    imgDadDead = loadImage("Dad Game Character Dead Lying Down");
+    imgDadDead = loadImage("Dad Game Character Dead Lying Down.png");
+    imgDadSmall = loadImage("Dad Game Character Small.png");
+    imgDadMedium = loadImage("Dad Game Character Medium.png");
+    imgDadMadSmall = loadImage("Dad Game Character Kishibe Rohan Small.png");
 
     imgMom = loadImage("Mom Game Character.png");
     imgSon = loadImage("Son Game Character.png");
@@ -60,9 +71,9 @@ public class Sketch1 extends PApplet {
       background(255);
       textSize(50);
       textAlign(CENTER, CENTER);
-      text("LEAVING THE HOUSE...", width / 2, height / 2);
+      text("LEAVING THE HOUSE... BE PATIENT OK", width / 2, height / 2);
     }
-
+    
     // Call cutscene2 Method
     cutscene2();
 
@@ -71,7 +82,7 @@ public class Sketch1 extends PApplet {
   public void cutscene1() {
     // Draw Images for the Beginning Cutscene
     imgDoor.resize(200, 400);
-    image(imgDoor, 1000, 200);
+    image(imgDoor, 1000, 150);
     
     imgDad.resize(300,300);
     image(imgDad, imgDad_X, imgDad_Y);
@@ -102,9 +113,33 @@ public class Sketch1 extends PApplet {
 
   public void cutscene2() {
     if (frameCount >= 540) {
-    image(imgPathway, 0, 0);
-    imgDad.resize(50, 50);
-    image(imgDad, 600, 600);
+      image(imgPathway, 0, 0);
+      image(imgDadMedium, imgDadMedium_X, imgDadMedium_Y);
+    }
+  
+    if (frameCount >= 660) {
+      fill(255, 25, 152);
+      rect(175, 630, 850, 50);
+      
+      fill(0);
+      textSize(30);
+      text("Which Path Should I Take? Hint: Press Left/Right Arrow Keys", text_X2, text_Y2);
+    }
+
+    if (frameCount >= 660) {
+      if (keyCode == LEFT) {
+        imgDadMedium_X -= 5;
+        imgDadMedium_Y -= 5;
+      }
+    }
+    
+    if (frameCount >= 660) {
+      if (keyCode == RIGHT) {
+        imgDadMedium_X += 5;
+        imgDadMedium_Y -= 5;
+      }
     }
   }
+
 }
+
