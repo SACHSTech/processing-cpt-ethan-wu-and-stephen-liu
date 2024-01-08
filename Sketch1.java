@@ -75,11 +75,14 @@ public class Sketch1 extends PApplet {
     // Call cutscene2 Method
     cutscene2();
 
+    // Collision Detection: If the player chooses the Left route on the pathway, call cutscene3 method.
     if (imgDadMedium_X <= 400 && imgDadMedium_Y <= 0 && frameCount >= 720) {
       cutscene3();
     }
   }
+ 
   
+
   public void cutscene1() {
     // Draw Images for the Beginning Cutscene
     imgDoor.resize(200, 400);
@@ -163,7 +166,7 @@ public class Sketch1 extends PApplet {
       textSize(50);
       textAlign(CENTER, CENTER);
       text("GOOD CHOICE ...", width / 2, height / 2);
-      text("HEH HEH", width / 2, 420);
+      text("LOADING ...", width / 2, 420);
     }
     
     // Series of nested if statements that will carry out code based on the frame count.
@@ -200,6 +203,7 @@ public class Sketch1 extends PApplet {
               image(imgDadDead, 1000, 500);
               text("ouch", text_X3, text_Y3);
 
+              // Add death message screen, which wipes the screen and turns it white.
               if (frameCount >= 1660) {
                 background(255);
                 textSize(50);
@@ -216,7 +220,6 @@ public class Sketch1 extends PApplet {
         }
       }
     }
-    
   }
 
 }
