@@ -14,10 +14,12 @@ public class Sketch1 extends PApplet {
   PImage imgMom;
   PImage imgSon;
   PImage imgDaughter;
+  PImage imgUgandanKnuckles;
   
   PImage imgHouse;
   PImage imgDoor;
   PImage imgPathway;
+  PImage imgDaWey;
 
   // Image Variables
   int imgDad_X = 600;
@@ -49,10 +51,12 @@ public class Sketch1 extends PApplet {
     imgMom = loadImage("Mom Game Character.png");
     imgSon = loadImage("Son Game Character.png");
     imgDaughter = loadImage("Daughter Game Character.png");
+    imgUgandanKnuckles = loadImage("Ugandan Knuckles.jpg");
 
     imgHouse = loadImage("Family House.jpeg");
     imgDoor = loadImage("Door.png");
     imgPathway = loadImage("Game Pathway.png");
+    imgDaWey = loadImage("Game Da Wey.png");
   }
 
   public void setup() {
@@ -77,6 +81,9 @@ public class Sketch1 extends PApplet {
     // Call cutscene2 Method
     cutscene2();
 
+    if (imgDadMedium_X <= 400 && imgDadMedium_Y <= 0 && frameCount >= 720) {
+      cutscene3();
+    }
   }
   
   public void cutscene1() {
@@ -123,7 +130,7 @@ public class Sketch1 extends PApplet {
       
       fill(0);
       textSize(30);
-      text("Which Path Should I Take? Hint: Press Left/Right Arrow Keys", text_X2, text_Y2);
+      text("which path should I take? Hint: press Left/Right arrow Keys", text_X2, text_Y2);
     }
 
     if (frameCount >= 660) {
@@ -139,6 +146,41 @@ public class Sketch1 extends PApplet {
         imgDadMedium_Y -= 5;
       }
     }
+
+  }
+
+  public void cutscene3() {
+    if (frameCount >= 720) {
+      background(255);
+      textSize(50);
+      textAlign(CENTER, CENTER);
+      text("YOU TOOK THE WRONG PATH ...", width / 2, height / 2);
+    }
+    
+    if (frameCount >= 960) {
+      image(imgDaWey, 0, 0);
+      image(imgDadMedium, 1000, 500);
+
+      if (frameCount >= 1100) {
+        imgUgandanKnuckles.resize(280, 263);
+        image(imgUgandanKnuckles, 450, 350);
+
+        if (frameCount >= 1160) {
+          image(imgDaWey, 0, 0);
+          imgDadMad.resize(150, 150);
+          image(imgUgandanKnuckles, 450, 350);
+          image(imgDadMad, 1000, 500);
+
+          if (frameCount >= 1340) {
+            image(imgDaWey, 0, 0);
+            imgDadDead.resize(150,150);
+            image(imgUgandanKnuckles, 450, 350);
+            image(imgDadDead, 1000, 500);
+          }
+        }
+      }
+    }
+    
   }
 
 }
