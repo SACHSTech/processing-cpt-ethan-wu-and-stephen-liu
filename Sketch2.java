@@ -10,6 +10,7 @@ public class Sketch2 extends PApplet {
   PImage imgDadMedium;
   PImage imgDadMadSmall;
   PImage imgMutahar;
+  PImage imgMike;
 	
   /**
    * Called once at the beginning of execution, put your size all in this method
@@ -24,6 +25,7 @@ public class Sketch2 extends PApplet {
     imgDadMedium = loadImage("Dad Game Character Medium.png");
     imgDadMadSmall = loadImage("Dad Game Character Kishibe Rohan Small.png");
     imgMutahar = loadImage("Mutahar Laugh.jpg");
+    imgMike = loadImage("Mike Wazowski Bruh Face.jpg");
   }
 
   // Declare variables
@@ -80,16 +82,20 @@ public class Sketch2 extends PApplet {
     }
     image(imgDadMedium, dadX, dadY);
 
-    // Add collision detection to walls (WORK IN PROGRESS)
+    // Add collision detection to walls and reset character
     if(dadY < 260 || dadY > 277){
-      image(imgMutahar, 200, 100);
-      textSize(30);
-      text("lol how did u even hit the wall???", 300, 600);
+      // image(imgMutahar, 200, 100);
+      // textSize(30);
+      // text("lol how did u even hit the wall???", 300, 600);
+      dadX = 50;
+      dadY = 270;
 }
-    // Add collision detection if player reaches red square
-    if(dadX >= 1080){
+    // Add collision detection and show ending to level 1
+    if(dadX >= 1040){
+      imgMike.resize(1200, 700);
+      image(imgMike, 0, 0);
       textSize(30);
-      text("*insert jumpscare*", 300, 600);
+      text("pov: dads reaction to u completing this level", 300, 70);
   }
 }
 }
