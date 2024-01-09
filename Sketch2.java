@@ -97,8 +97,8 @@ public class Sketch2 extends PApplet {
       textSize(30);
       text("lol how did u even hit the wall???", 300, 600);
       }
-      dadX = 50;
-      dadY = 270;
+      // dadX = 50;
+      /  = 270;
 }
     // Add collision detection and show ending to level 1
     if(dadX >= 1040){
