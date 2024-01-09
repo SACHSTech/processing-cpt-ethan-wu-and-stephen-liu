@@ -81,6 +81,10 @@ public class Sketch1 extends PApplet {
     if (imgDadMedium_X <= 400 && imgDadMedium_Y <= 0 && frameCount >= 720) {
       cutscene3();
     }
+
+    if (imgDadMedium_X >= 800 && imgDadMedium_Y <= 0 && frameCount >= 720) {
+      level2();
+    }
   }
  
   
@@ -224,6 +228,10 @@ public class Sketch1 extends PApplet {
         }
       }
     }
+  }
+
+  public void level2() {
+    
   }
 
 }
