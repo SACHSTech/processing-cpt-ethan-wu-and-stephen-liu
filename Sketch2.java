@@ -11,6 +11,10 @@ public class Sketch2 extends PApplet {
   PImage imgDadMadSmall;
   PImage imgMutahar;
   PImage imgMike;
+
+  int startTime1, startTime2;
+  int duration1 = 3000;
+  int duration2 = 4000;
 	
   /**
    * Called once at the beginning of execution, put your size all in this method
@@ -35,6 +39,9 @@ public class Sketch2 extends PApplet {
   // Draw background
   public void setup() {
     background(3, 248, 252);
+
+    startTime1 = millis();  
+    startTime2 = millis();
   }
 
   // Draw background again for clean animations
@@ -84,9 +91,12 @@ public class Sketch2 extends PApplet {
 
     // Add collision detection to walls and reset character
     if(dadY < 260 || dadY > 277){
-      // image(imgMutahar, 200, 100);
-      // textSize(30);
-      // text("lol how did u even hit the wall???", 300, 600);
+      int elaspedTime1 = millis() - startTime1;
+      if(elaspedTime1 < duration1){
+      image(imgMutahar, 200, 100);
+      textSize(30);
+      text("lol how did u even hit the wall???", 300, 600);
+      }
       dadX = 50;
       dadY = 270;
 }
@@ -95,7 +105,7 @@ public class Sketch2 extends PApplet {
       imgMike.resize(1200, 700);
       image(imgMike, 0, 0);
       textSize(30);
-      text("pov: dads reaction to u completing this level", 300, 70);
+      text("pov: dads reaction to u completing this level", 300, 70);  
   }
 }
 }
