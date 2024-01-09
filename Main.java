@@ -14,6 +14,6 @@ class Main {
 	  Sketch2 mySketch = new Sketch2();  // uncomment this to run this sketch file
 	  
 	  PApplet.runSketch(processingArgs, mySketch);
-  }
+  } 
   
 }

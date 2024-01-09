@@ -1,7 +1,7 @@
 import processing.core.PApplet;
 import processing.core.PImage;
 import java.util.Random;
-
+ 
 public class Sketch1 extends PApplet {
   // Establish images that will be used
   PImage imgDad;
@@ -20,6 +20,7 @@ public class Sketch1 extends PApplet {
   PImage imgDoor;
   PImage imgPathway;
   PImage imgDaWey;
+  PImage imgMutahar;
 
   // Image Variables
   int imgDad_X = 600;
@@ -59,6 +60,7 @@ public class Sketch1 extends PApplet {
     imgDoor = loadImage("Door.png");
     imgPathway = loadImage("Game Pathway.png");
     imgDaWey = loadImage("Game Da Wey.png");
+    imgMutahar = loadImage("Mutahar Laugh.jpg");
   }
 
   public void setup() {
@@ -205,7 +207,9 @@ public class Sketch1 extends PApplet {
 
               // Add death message screen, which wipes the screen and turns it white.
               if (frameCount >= 1660) {
-                background(255);
+                imgMutahar.resize(1200,700);
+                image(imgMutahar, 0, 0);
+                fill(255);
                 textSize(50);
                 textAlign(CENTER, CENTER);
                 text("YOU DIED... WOMP WOMP", width / 2, 250);
