@@ -50,6 +50,7 @@ public class Sketch2 extends PApplet {
 
   // Call each level
     level1();
+    level3();
   }
 
   public void level1(){
@@ -91,14 +92,8 @@ public class Sketch2 extends PApplet {
 
     // Add collision detection to walls and reset character
     if(dadY < 260 || dadY > 277){
-      int elaspedTime1 = millis() - startTime1;
-      if(elaspedTime1 < duration1){
-      image(imgMutahar, 200, 100);
-      textSize(30);
-      text("lol how did u even hit the wall???", 300, 600);
-      }
-      // dadX = 50;
-      /  = 270;
+      dadX = 50;
+      dadY = 270;
 }
     // Add collision detection and show ending to level 1
     if(dadX >= 1040){
@@ -108,5 +103,7 @@ public class Sketch2 extends PApplet {
       text("pov: dads reaction to u completing this level", 300, 70);  
   }
 }
+  public void level3(){
+  }
 }
   
