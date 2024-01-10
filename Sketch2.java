@@ -11,10 +11,7 @@ public class Sketch2 extends PApplet {
   PImage imgDadMadSmall;
   PImage imgMutahar;
   PImage imgMike;
-
-  int startTime1, startTime2;
-  int duration1 = 3000;
-  int duration2 = 4000;
+  PImage imgLevel3;
 	
   /**
    * Called once at the beginning of execution, put your size all in this method
@@ -30,18 +27,20 @@ public class Sketch2 extends PApplet {
     imgDadMadSmall = loadImage("Dad Game Character Kishibe Rohan Small.png");
     imgMutahar = loadImage("Mutahar Laugh.jpg");
     imgMike = loadImage("Mike Wazowski Bruh Face.jpg");
+    imgLevel3 = loadImage("Level3BG.png");
   }
 
   // Declare variables
   float dadX = 50;
   float dadY = 270;
+  float dadX1 = 30;
+  float dadY1 = 300;
 
   // Draw background
   public void setup() {
     background(3, 248, 252);
 
-    startTime1 = millis();  
-    startTime2 = millis();
+    
   }
 
   // Draw background again for clean animations
@@ -49,7 +48,6 @@ public class Sketch2 extends PApplet {
     background(3, 248, 252);
 
   // Call each level
-    level1();
     level3();
   }
 
@@ -104,6 +102,48 @@ public class Sketch2 extends PApplet {
   }
 }
   public void level3(){
+
+  // Draw background
+  image(imgLevel3, 0, 0);
+
+  // Load dad into level
+  image(imgDadMedium, dadX1, dadY1);
+
+  // Add level instructions
+  textSize(30);
+  fill(0, 0, 0);
+  text("Get to the end of the road! >:) ", 750, 50);
+
+  // Make dad move based on WASD
+  if(keyPressed){
+
+      if(key == 'w'){
+        dadY1-=2;
+      }
+      else if(key == 's'){
+        dadY1+=2;
+      }
+      else if(key == 'a'){
+        dadX1-=2;
+      }
+      else if(key == 'd'){
+        dadX1+= 2;
+      }
+    }
+    image(imgDadMedium, dadX1, dadY1);
+
+
+  // Add collision detection to detect if player goes off the road
+  if(dadY1 < 250 || dadY1 > 390 && dadX1 < 750){
+    textSize(30);
+    text("LOL", 40, 600);
+    //dadX1 = 30;
+    //dadY1 = 300;
   }
+
+
+
+
+}
 }
   
