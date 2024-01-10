@@ -11,39 +11,46 @@ public class Sketch1 extends PApplet {
   PImage imgDadMedium;
   PImage imgDadMadSmall;
   
+  // Cutscene 1 variables
   PImage imgMom;
   PImage imgSon;
   PImage imgDaughter;
-  PImage imgUgandanKnuckles;
-  
   PImage imgHouse;
   PImage imgDoor;
+
+  int imgDad_X1 = 600;
+  int imgDad_Y1 = 200;
+  int text_X1 = 700;
+  int text_Y1 = 100;
+
+  // Cutscene 2 variables
   PImage imgPathway;
+
+  int imgDadMedium_X1 = 500;
+  int imgDadMedium_Y1 = 500;
+  int text_X2 = 600;
+  int text_Y2 = 650;
+  
+  // Cutscene 3 variables
+  PImage imgUgandanKnuckles;
   PImage imgDaWey;
   PImage imgMutahar;
 
-  // Image Variables
-  int imgDad_X = 600;
-  int imgDad_Y = 200;
-
-  int imgDadMedium_X = 500;
-  int imgDadMedium_Y = 500;
-
-  // Text Variables
-  int text_X1 = 700;
-  int text_Y1 = 100;
-  int text_X2 = 600;
-  int text_Y2 = 650;
   int text_X3 = 1000;
   int text_Y3 = 400;
 
-  // Life Variables
-  int numLife = 1;
+  // Level 2 variables
+  PImage imgLevel2Background;
 
+  int imgDadSmall_X1 = 0;
+  int imgDadSmall_Y1 = 560;
+
+  int startTime1;
+  int duration1 = 5000;
 
   public void settings() {
     size(1200, 700);
-    // Load in images
+    // Dad Image Loading
     imgDad = loadImage("Dad Game Character.png");
     imgDadMad = loadImage("Dad Game Character Kishibe Rohan.png");
     imgDadDead = loadImage("Dad Game Character Dead Lying Down.png");
@@ -51,20 +58,30 @@ public class Sketch1 extends PApplet {
     imgDadMedium = loadImage("Dad Game Character Medium.png");
     imgDadMadSmall = loadImage("Dad Game Character Kishibe Rohan Small.png");
 
+    // Cutscene 1 Loading
     imgMom = loadImage("Mom Game Character.png");
     imgSon = loadImage("Son Game Character.png");
     imgDaughter = loadImage("Daughter Game Character.png");
-    imgUgandanKnuckles = loadImage("Ugandan Knuckles.jpg");
-
-    imgHouse = loadImage("Family House.jpeg");
     imgDoor = loadImage("Door.png");
+    
+    // Cutscene 2 Loading
     imgPathway = loadImage("Game Pathway.png");
+    
+    // Cutscene 3 Loading
+    imgUgandanKnuckles = loadImage("Ugandan Knuckles.jpg");
     imgDaWey = loadImage("Game Da Wey.png");
     imgMutahar = loadImage("Mutahar Laugh.jpg");
+
+    // Level 2 Loading
+    imgLevel2Background = loadImage("Level 2 Background.png");
+    
   }
 
   public void setup() {
     background(210, 255, 173);
+
+    // Level 2 setup
+    startTime1 = millis();
   }
 
   public void draw() {
@@ -78,11 +95,11 @@ public class Sketch1 extends PApplet {
     cutscene2();
 
     // Collision Detection: If the player chooses the Left route on the pathway, call cutscene3 method.
-    if (imgDadMedium_X <= 400 && imgDadMedium_Y <= 0 && frameCount >= 720) {
+    if (imgDadMedium_X1 <= 400 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
       cutscene3();
     }
 
-    if (imgDadMedium_X >= 800 && imgDadMedium_Y <= 0 && frameCount >= 720) {
+    if (imgDadMedium_X1 >= 800 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
       level2();
     }
   }
@@ -95,7 +112,7 @@ public class Sketch1 extends PApplet {
     image(imgDoor, 1000, 150);
     
     imgDad.resize(300,300);
-    image(imgDad, imgDad_X, imgDad_Y);
+    image(imgDad, imgDad_X1, imgDad_Y1);
     
     imgMom.resize(250,250);
     image(imgMom, 200, 200);
@@ -116,7 +133,7 @@ public class Sketch1 extends PApplet {
     }
     // Make the Dad move after 3 seconds from the start of the program
     if (frameCount >= 300) {
-      imgDad_X += 5;
+      imgDad_X1 += 5;
       text_X1 += 800;
     }
 
@@ -133,7 +150,7 @@ public class Sketch1 extends PApplet {
     // Draw the new background, which is an image
     if (frameCount >= 540) {
       image(imgPathway, 0, 0);
-      image(imgDadMedium, imgDadMedium_X, imgDadMedium_Y);
+      image(imgDadMedium, imgDadMedium_X1, imgDadMedium_Y1);
     }
   
     // Adds a text box that gives a player directions on what to do
@@ -150,16 +167,16 @@ public class Sketch1 extends PApplet {
     // Collision detection is added in the draw method to see which path the character takes.
     if (frameCount >= 660) {
       if (keyCode == LEFT) {
-        imgDadMedium_X -= 5;
-        imgDadMedium_Y -= 5;
+        imgDadMedium_X1 -= 5;
+        imgDadMedium_Y1 -= 5;
       }
     }
     
     // If user presses RIGHT arrow key, the character will move along the right path.
     if (frameCount >= 660) {
       if (keyCode == RIGHT) {
-        imgDadMedium_X += 5;
-        imgDadMedium_Y -= 5;
+        imgDadMedium_X1 += 5;
+        imgDadMedium_Y1 -= 5;
       }
     }
 
@@ -231,7 +248,18 @@ public class Sketch1 extends PApplet {
   }
 
   public void level2() {
-    
+    // Draw background and Dad character
+    image(imgLevel2Background, 0, 0);
+    image(imgDadSmall, imgDadSmall_X1, imgDadSmall_Y1);
+
+    int elapsedTime1 = millis() - startTime1;
+    if (elapsedTime1 < duration1) {
+      fill(0);
+      textSize(50);
+      textAlign(CENTER, CENTER);
+      text("Press space To jump and LEFT/RIGHT to move :)", width/2, 350);
+    }
+
   }
 
 }
