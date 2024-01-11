@@ -48,6 +48,18 @@ public class Sketch1 extends PApplet {
   int startTime1;
   int duration1 = 5000;
 
+  // Directional movement variables
+  boolean upPressed = false;
+  boolean downPressed = false;
+  boolean leftPressed = false;
+  boolean rightPressed = false;
+  
+  // Jumping Variables
+  boolean jumpPressed = false;
+  int jumpHeight1 = -10;
+  int gravity1 = 1;
+  int vertSpeed1 = 0;
+
   public void settings() {
     size(1200, 700);
     // Dad Image Loading
@@ -86,25 +98,60 @@ public class Sketch1 extends PApplet {
 
   public void draw() {
     // Reset background to provide clean animation
-    background(210, 255, 173);
+    //background(210, 255, 173);
 
     // Call cutscene1 Method
-    cutscene1();
+    //cutscene1();
     
     // Call cutscene2 Method
-    cutscene2();
+    //cutscene2();
 
     // Collision Detection: If the player chooses the Left route on the pathway, call cutscene3 method.
-    if (imgDadMedium_X1 <= 400 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
-      cutscene3();
-    }
+    //if (imgDadMedium_X1 <= 600 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
+      //cutscene3();
+    //}
 
-    if (imgDadMedium_X1 >= 800 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
+    //if (imgDadMedium_X1 >= 601 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
       level2();
-    }
+    //}
   }
  
-  
+  // keybinds: if you press these keys, it will move the character
+  public void keyPressed() {
+    // Keybinds for up/down/left/right movement
+    if (key == 'u') {
+      upPressed = true;
+    }
+    if (key == 'd') {
+      downPressed = true;
+    }
+    if (key == 'l') {
+      leftPressed = true;
+    }
+    if (key == 'r') {
+      rightPressed = true;
+    }
+    // Keybind for jumping
+    if (keyCode == BACKSPACE) {
+      jumpPressed = true;
+    }
+
+  }
+
+  public void keyReleased() {
+    if (key == 'u') {
+      upPressed = false;
+    }
+    if (key == 'd') {
+      downPressed = false;
+    }
+    if (key == 'l') {
+      leftPressed = false;
+    }
+    if (key == 'r') {
+      rightPressed = false;
+    }
+  }
 
   public void cutscene1() {
     // Draw Images for the Beginning Cutscene
@@ -160,21 +207,21 @@ public class Sketch1 extends PApplet {
       
       fill(0);
       textSize(30);
-      text("which path should I take? Hint: press Left/Right arrow Keys", text_X2, text_Y2);
+      text("L key for Left, R Key for Right, where to go???", text_X2, text_Y2);
     }
 
-    // If user presses LEFT arrow key, the character will move along the left path.  
+    // If user presses L key, the character will move along the left path.  
     // Collision detection is added in the draw method to see which path the character takes.
     if (frameCount >= 660) {
-      if (keyCode == LEFT) {
+      if (leftPressed == true) {
         imgDadMedium_X1 -= 5;
         imgDadMedium_Y1 -= 5;
       }
     }
     
-    // If user presses RIGHT arrow key, the character will move along the right path.
+    // If user presses R key, the character will move along the right path.
     if (frameCount >= 660) {
-      if (keyCode == RIGHT) {
+      if (rightPressed == true) {
         imgDadMedium_X1 += 5;
         imgDadMedium_Y1 -= 5;
       }
@@ -257,7 +304,32 @@ public class Sketch1 extends PApplet {
       fill(0);
       textSize(50);
       textAlign(CENTER, CENTER);
-      text("Press space To jump and LEFT/RIGHT to move :)", width/2, 350);
+      text("Press backspace To jump and l/r to move :)", width/2, 350);
+
+      // Set movement booleans to false to prevent player from moving during the text
+      leftPressed = false;
+      rightPressed = false;
+    }
+
+    // Make Character move left and right 
+    if (leftPressed == true) {
+      imgDadSmall_X1 -= 2;
+    }
+
+    if (rightPressed == true) {
+      imgDadSmall_X1 += 2;
+    }
+
+    vertSpeed1 += gravity1;
+    imgDadSmall_Y1 += vertSpeed1;
+
+    if (imgDadSmall_Y1 > 560) {
+      imgDadSmall_Y1 = 560;
+      vertSpeed1 = 0;
+    }
+
+    if (keyCode == BACKSPACE && imgDadSmall_Y1 == 560) {
+      vertSpeed1 = jumpHeight1;
     }
 
   }
