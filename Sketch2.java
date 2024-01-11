@@ -12,6 +12,7 @@ public class Sketch2 extends PApplet {
   PImage imgMutahar;
   PImage imgMike;
   PImage imgLevel3;
+  PImage imgPortal;
 	
   /**
    * Called once at the beginning of execution, put your size all in this method
@@ -28,6 +29,7 @@ public class Sketch2 extends PApplet {
     imgMutahar = loadImage("Mutahar Laugh.jpg");
     imgMike = loadImage("Mike Wazowski Bruh Face.jpg");
     imgLevel3 = loadImage("Level3BG.png");
+    imgPortal = loadImage("Portal1BG.png");
   }
 
   // Declare variables
@@ -36,11 +38,18 @@ public class Sketch2 extends PApplet {
   float dadX1 = 30;
   float dadY1 = 300;
 
+  // Timer variables
+
+  //int timer1;
+  //int dura1 = 3000;
+
+
   // Draw background
   public void setup() {
     background(3, 248, 252);
 
-    
+    //timer1 = millis();
+
   }
 
   // Draw background again for clean animations
@@ -48,7 +57,9 @@ public class Sketch2 extends PApplet {
     background(3, 248, 252);
 
   // Call each level
-    level3();
+    level1();
+    // level3();
+    // cutScene4();
   }
 
   public void level1(){
@@ -90,9 +101,14 @@ public class Sketch2 extends PApplet {
 
     // Add collision detection to walls and reset character
     if(dadY < 260 || dadY > 277){
-      dadX = 50;
-      dadY = 270;
-}
+      //int elasped1 = millis() - timer1;
+      //if(elasped1 < dura1){
+        //imgMutahar.resize(1200, 700);
+        //image(imgMutahar, 0, 0);
+        dadX = 50;
+        dadY = 270;
+      }
+    {
     // Add collision detection and show ending to level 1
     if(dadX >= 1040){
       imgMike.resize(1200, 700);
@@ -101,10 +117,19 @@ public class Sketch2 extends PApplet {
       text("pov: dads reaction to u completing this level", 300, 70);  
   }
 }
+  }
+
   public void level3(){
 
   // Draw background
   image(imgLevel3, 0, 0);
+
+  // Draw fake portals and portal sign
+  image(imgPortal, -220, -50);
+  image(imgPortal, 790, 380);
+  textSize(20);
+  text("real portal", 50, 230);
+  text("real portal", 1060, 430);
 
   // Load dad into level
   image(imgDadMedium, dadX1, dadY1);
@@ -132,18 +157,21 @@ public class Sketch2 extends PApplet {
     }
     image(imgDadMedium, dadX1, dadY1);
 
-
   // Add collision detection to detect if player goes off the road
-  if(dadY1 < 250 || dadY1 > 390 && dadX1 < 750){
-    textSize(30);
-    text("LOL", 40, 600);
-    //dadX1 = 30;
-    //dadY1 = 300;
+  if(dadY1 < 250 && dadX1 > 170 || dadY1 > 390){
+    dadX1 = 30;
+    dadY1 = 300;
   }
 
 
 
 
+
+
+
+
 }
 }
+
+
   
