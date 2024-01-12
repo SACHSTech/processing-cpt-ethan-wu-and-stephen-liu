@@ -42,23 +42,27 @@ public class Sketch1 extends PApplet {
   // Level 2 variables
   PImage imgLevel2Background;
 
-  int imgDadSmall_X1 = 0;
-  int imgDadSmall_Y1 = 560;
+  double imgDadSmall_X1 = 0;
+  double imgDadSmall_Y1 = 560;
 
   int startTime1;
   int duration1 = 5000;
 
+  double jumping_X1 = imgDadSmall_X1;
+  double jumping_Y1 = imgDadSmall_Y1;
+  double xSpeed1 = 2; 
+  double ySpeed1 = 0;
+  double gravity1 = 0.5;
+  boolean hasJumped = false;
+  
   // Directional movement variables
   boolean upPressed = false;
   boolean downPressed = false;
   boolean leftPressed = false;
   boolean rightPressed = false;
   
-  // Jumping Variables
-  boolean jumpPressed = false;
-  int jumpHeight1 = -10;
-  int gravity1 = 1;
-  int vertSpeed1 = 0;
+  
+
 
   public void settings() {
     size(1200, 700);
@@ -130,10 +134,6 @@ public class Sketch1 extends PApplet {
     }
     if (key == 'r') {
       rightPressed = true;
-    }
-    // Keybind for jumping
-    if (keyCode == BACKSPACE) {
-      jumpPressed = true;
     }
 
   }
@@ -297,7 +297,7 @@ public class Sketch1 extends PApplet {
   public void level2() {
     // Draw background and Dad character
     image(imgLevel2Background, 0, 0);
-    image(imgDadSmall, imgDadSmall_X1, imgDadSmall_Y1);
+    image(imgDadSmall, (float)jumping_X1, (float)jumping_Y1);
 
     int elapsedTime1 = millis() - startTime1;
     if (elapsedTime1 < duration1) {
@@ -311,28 +311,32 @@ public class Sketch1 extends PApplet {
       rightPressed = false;
     }
 
+    if (!hasJumped && mousePressed) {
+      ySpeed1 = -10;  // Set the initial speed in the y direction for the jump
+      hasJumped = true;  // Set the flag to true so that the object won't jump again
+    }
+
+    jumping_Y1 += ySpeed1;
+    ySpeed1 += gravity1;
+
+    if (jumping_Y1 >= imgDadSmall_Y1) {
+      jumping_Y1 = imgDadSmall_Y1;  // Set the object on the ground
+      ySpeed1 = 0;  // Stop the vertical motion
+      hasJumped = false;
+    }
+
+
     // Make Character move left and right 
     if (leftPressed == true) {
-      imgDadSmall_X1 -= 2;
+      jumping_X1 -= 2;
     }
 
     if (rightPressed == true) {
-      imgDadSmall_X1 += 2;
-    }
-
-    vertSpeed1 += gravity1;
-    imgDadSmall_Y1 += vertSpeed1;
-
-    if (imgDadSmall_Y1 > 560) {
-      imgDadSmall_Y1 = 560;
-      vertSpeed1 = 0;
-    }
-
-    if (keyCode == BACKSPACE && imgDadSmall_Y1 == 560) {
-      vertSpeed1 = jumpHeight1;
+      jumping_X1 += 2;
     }
 
   }
+
 
 }
 
