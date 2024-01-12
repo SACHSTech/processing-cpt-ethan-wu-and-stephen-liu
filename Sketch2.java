@@ -15,6 +15,7 @@ public class Sketch2 extends PApplet {
   PImage imgPortal;
   PImage imgSoccer;
   PImage imgRonaldo;
+  PImage imgSuiii;
 	
   /**
    * Called once at the beginning of execution, put your size all in this method
@@ -35,6 +36,7 @@ public class Sketch2 extends PApplet {
     imgPortal = loadImage("Portal1BG.png");
     imgSoccer = loadImage("Soccer Net.jpg");
     imgRonaldo = loadImage("Ronaldo.png");
+    imgSuiii = loadImage("Suiii.png");
   }
 
   // Declare variables
@@ -52,7 +54,9 @@ public class Sketch2 extends PApplet {
   //int timer1;
   //int dura1 = 3000;
   int timer2;
-  int dura2 = 4000;
+  int dura2 = 5000;
+  int timer3;
+  int dura3 = 9000;
 
 
   // Draw background
@@ -61,6 +65,7 @@ public class Sketch2 extends PApplet {
 
     //timer1 = millis();
     timer2 = millis();
+    timer3 = millis();
 
   }
 
@@ -71,7 +76,7 @@ public class Sketch2 extends PApplet {
   // Call each level
    // level1();
    // level3();
-    cutScene4();
+   // cutScene4();
   }
 
   public void level1(){
@@ -202,18 +207,37 @@ public class Sketch2 extends PApplet {
       dadX2 += 10;
     }
 
-    // Add collision detection to net 
+    // Add collision detection to net and add death scene
     if(dadX2 >= 850){
       dadX2 -= 10;
       int elasped2 = millis() - timer2;
       if(elasped2 > dura2){
         imgSoccer.resize(1200, 700);
         image(imgSoccer, 0, 0);
-        imgRonaldo.resize(200, 130);
-        image(imgRonaldo, 175, ronaldoY);
-        imgDadMad.resize(50, 50);
-        image(imgDadMad, 800, 300);
+        fill(255);
+        textSize(30);
+        text("SUIIIIIIIIII", 170, 250);
+        image(imgSuiii, 175, 250);
+        imgDadDead.resize(50, 50);
+        image(imgDadDead, 820, dadY2);
+        fill(255, 0, 34);
+        textSize(25);
+        text("wasted", 700, dadY2);
     }
+  }
+    // Add final death scene
+    int elasped3 = millis() - timer3;
+    if(elasped3 > dura3){
+      background(255, 255, 255);
+      fill(0);
+      textSize(50);
+      text("YOU DIED... WOMP WOMP", 300, 150);
+      textSize(30);
+      text("lol imagine walkin onto a soccer field", 320, 250);
+      text("and imagine being confused for the ball LOL", 290, 350);
+      text("suiiiiiiiiiiiiiiiiiii", 500, 450);
+    }
+    
 
     
 
@@ -225,7 +249,7 @@ public class Sketch2 extends PApplet {
 
 }
 }
-}
+
 
 
 
