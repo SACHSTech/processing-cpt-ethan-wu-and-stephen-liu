@@ -51,19 +51,19 @@ public class Sketch2 extends PApplet {
 
   // Timer variables
 
-  //int timer1;
-  //int dura1 = 3000;
+  int timer1;
+  int dura1 = 3000;
   int timer2;
-  int dura2 = 5000;
+  int dura2 = 3000;
   int timer3;
-  int dura3 = 9000;
+  int dura3 = 8000;
 
 
   // Draw background
   public void setup() {
     background(3, 248, 252);
 
-    //timer1 = millis();
+    timer1 = millis();
     timer2 = millis();
     timer3 = millis();
 
@@ -74,9 +74,9 @@ public class Sketch2 extends PApplet {
     background(3, 248, 252);
 
   // Call each level
-   // level1();
+    level1();
    // level3();
-   // cutScene4();
+    //cutScene4();
   }
 
   public void level1(){
@@ -118,12 +118,13 @@ public class Sketch2 extends PApplet {
 
     // Add collision detection to walls and reset character
     if(dadY < 260 || dadY > 277){
-      //int elasped1 = millis() - timer1;
-      //if(elasped1 < dura1){
-        //imgMutahar.resize(1200, 700);
-        //image(imgMutahar, 0, 0);
-        dadX = 50;
-        dadY = 270;
+      int elasped1 = millis() - timer1;
+      if(elasped1 < dura1){
+        imgMutahar.resize(1200, 700);
+        image(imgMutahar, 0, 0);
+        //dadX = 50;
+        //dadY = 270;
+      }
       }
     {
     // Add collision detection and show ending to level 1
@@ -134,7 +135,8 @@ public class Sketch2 extends PApplet {
       text("pov: dads reaction to u completing this level", 300, 70);  
   }
 }
-  }
+    }
+  
 
   public void level3(){
 
@@ -193,7 +195,7 @@ public class Sketch2 extends PApplet {
 
     // Make dad move into position
     if(dadY2 > 370){
-      dadY2 -= 2;
+      dadY2 -= 1.5;
     }
 
     // Once dad stops moving, Ronaldo runs into frame
