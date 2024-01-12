@@ -13,11 +13,14 @@ public class Sketch2 extends PApplet {
   PImage imgMike;
   PImage imgLevel3;
   PImage imgPortal;
+  PImage imgSoccer;
+  PImage imgRonaldo;
 	
   /**
    * Called once at the beginning of execution, put your size all in this method
    */
   public void settings() {
+
 	// put your size call here
     size(1200, 700);
     imgDad = loadImage("Dad Game Character.png");
@@ -30,6 +33,8 @@ public class Sketch2 extends PApplet {
     imgMike = loadImage("Mike Wazowski Bruh Face.jpg");
     imgLevel3 = loadImage("Level3BG.png");
     imgPortal = loadImage("Portal1BG.png");
+    imgSoccer = loadImage("Soccer Net.jpg");
+    imgRonaldo = loadImage("Ronaldo.png");
   }
 
   // Declare variables
@@ -37,11 +42,17 @@ public class Sketch2 extends PApplet {
   float dadY = 270;
   float dadX1 = 30;
   float dadY1 = 300;
+  float dadX2 = 300;
+  float dadY2 = 650;
+  float ronaldoX = -130;
+  float ronaldoY = 280;
 
   // Timer variables
 
   //int timer1;
   //int dura1 = 3000;
+  int timer2;
+  int dura2 = 4000;
 
 
   // Draw background
@@ -49,6 +60,7 @@ public class Sketch2 extends PApplet {
     background(3, 248, 252);
 
     //timer1 = millis();
+    timer2 = millis();
 
   }
 
@@ -57,9 +69,9 @@ public class Sketch2 extends PApplet {
     background(3, 248, 252);
 
   // Call each level
-    level1();
-    // level3();
-    // cutScene4();
+   // level1();
+   // level3();
+    cutScene4();
   }
 
   public void level1(){
@@ -162,7 +174,48 @@ public class Sketch2 extends PApplet {
     dadX1 = 30;
     dadY1 = 300;
   }
+  }
+  public void cutScene4() {
 
+    // Load background
+    imgSoccer.resize(1200, 700);
+    image(imgSoccer, 0, 0);
+
+    // Load dad and Ronaldo into map
+    image(imgDadSmall, dadX2, dadY2); 
+    imgRonaldo.resize(200, 130);
+    image(imgRonaldo, ronaldoX, ronaldoY);
+
+    // Make dad move into position
+    if(dadY2 > 370){
+      dadY2 -= 2;
+    }
+
+    // Once dad stops moving, Ronaldo runs into frame
+    if(dadY2 < 380){
+      ronaldoX += 6;
+    }
+
+    // Make Ronaldo kick dad and make dad fly into net
+    if(ronaldoX > 175){
+      ronaldoX -= 6;
+      dadX2 += 10;
+    }
+
+    // Add collision detection to net 
+    if(dadX2 >= 850){
+      dadX2 -= 10;
+      int elasped2 = millis() - timer2;
+      if(elasped2 > dura2){
+        imgSoccer.resize(1200, 700);
+        image(imgSoccer, 0, 0);
+        imgRonaldo.resize(200, 130);
+        image(imgRonaldo, 175, ronaldoY);
+        imgDadMad.resize(50, 50);
+        image(imgDadMad, 800, 300);
+    }
+
+    
 
 
 
@@ -172,6 +225,8 @@ public class Sketch2 extends PApplet {
 
 }
 }
+}
+
 
 
   
