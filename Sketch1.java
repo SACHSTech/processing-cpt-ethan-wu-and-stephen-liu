@@ -41,25 +41,34 @@ public class Sketch1 extends PApplet {
 
   // Level 2 variables
   PImage imgLevel2Background;
+  PImage imgTrampoline;
+  PImage imgSpikes;
+  PImage imgBuilding1;
+  PImage imgBuilding2;
 
   double imgDadSmall_X1 = 0;
   double imgDadSmall_Y1 = 560;
+  int tramp_locations[] = {130, 450, 720};
+  int spike_locations[] = {80, 400, 840, 890, 940};
+  int building_locations[] = {200, 520, 900};
 
   int startTime1;
   int duration1 = 5000;
 
-  double jumping_X1 = imgDadSmall_X1;
-  double jumping_Y1 = imgDadSmall_Y1;
-  double xSpeed1 = 2; 
-  double ySpeed1 = 0;
-  double gravity1 = 0.5;
-  boolean hasJumped = false;
+    // Jumping variables
+    double jumping_X1 = imgDadSmall_X1;
+    double jumping_Y1 = imgDadSmall_Y1;
+    double xSpeed1 = 2; 
+    double ySpeed1 = 0;
+    double gravity1 = 0.5;
+    boolean hasJumped = false;
   
   // Directional movement variables
   boolean upPressed = false;
   boolean downPressed = false;
   boolean leftPressed = false;
   boolean rightPressed = false;
+  boolean jumpPressed = false;
   
   
 
@@ -90,6 +99,10 @@ public class Sketch1 extends PApplet {
 
     // Level 2 Loading
     imgLevel2Background = loadImage("Level 2 Background.png");
+    imgTrampoline = loadImage("trampoline transparent.png");
+    imgSpikes = loadImage("spikes transparent.png");
+    imgBuilding1 = loadImage("building 1.png");
+    imgBuilding2 = loadImage("building 2.png");
     
   }
 
@@ -122,7 +135,7 @@ public class Sketch1 extends PApplet {
  
   // keybinds: if you press these keys, it will move the character
   public void keyPressed() {
-    // Keybinds for up/down/left/right movement
+    // Keybinds for movement
     if (key == 'u') {
       upPressed = true;
     }
@@ -135,10 +148,14 @@ public class Sketch1 extends PApplet {
     if (key == 'r') {
       rightPressed = true;
     }
+    if (keyCode == BACKSPACE) {
+      jumpPressed = true;
+    }
 
   }
 
   public void keyReleased() {
+    // Movement stops when these keys are released
     if (key == 'u') {
       upPressed = false;
     }
@@ -150,6 +167,9 @@ public class Sketch1 extends PApplet {
     }
     if (key == 'r') {
       rightPressed = false;
+    }
+    if (keyCode == BACKSPACE) {
+      jumpPressed = false;
     }
   }
 
@@ -207,7 +227,7 @@ public class Sketch1 extends PApplet {
       
       fill(0);
       textSize(30);
-      text("L key for Left, R Key for Right, where to go???", text_X2, text_Y2);
+      text("L letter key to move Left, R letter Key for Right", text_X2, text_Y2);
     }
 
     // If user presses L key, the character will move along the left path.  
@@ -295,32 +315,57 @@ public class Sketch1 extends PApplet {
   }
 
   public void level2() {
-    // Draw background and Dad character
+    // Draw level and Dad character
     image(imgLevel2Background, 0, 0);
     image(imgDadSmall, (float)jumping_X1, (float)jumping_Y1);
+    
+    image(imgTrampoline, tramp_locations[0], 580);
+    image(imgTrampoline, tramp_locations[1], 580);
+    image(imgTrampoline, tramp_locations[2], 580);
 
-    int elapsedTime1 = millis() - startTime1;
-    if (elapsedTime1 < duration1) {
-      fill(0);
-      textSize(50);
-      textAlign(CENTER, CENTER);
-      text("Press backspace To jump and l/r to move :)", width/2, 350);
+    image(imgSpikes, spike_locations[0], 580);
+    image(imgSpikes, spike_locations[1], 580);
+    image(imgSpikes, spike_locations[2], 580);
+    image(imgSpikes, spike_locations[3], 580);
+    image(imgSpikes, spike_locations[4], 580);
+    
+    image(imgBuilding1, building_locations[0], 250);
+    image(imgBuilding1, building_locations[1], 250);
+    image(imgBuilding2, building_locations[2], 250);
+
+
+    //int elapsedTime1 = millis() - startTime1;
+    //if (elapsedTime1 < duration1) {
+      //fill(0);
+      //textSize(50);
+      //textAlign(CENTER, CENTER);
+      //text("Press backspace To jump and l/r to move :)", width / 2, 300);
+      //text("Jump on trampolines to get over building", width / 2, 350);
+      //text("Dont touch spike", width / 2, 400);
 
       // Set movement booleans to false to prevent player from moving during the text
-      leftPressed = false;
-      rightPressed = false;
+      //leftPressed = false;
+      //rightPressed = false;
+      //jumpPressed = false;
+    //}
+
+    if (!hasJumped && jumpPressed) {
+      ySpeed1 = -12;  // Set jump height
+      hasJumped = true;  // Set boolean to true to prevent character from jumping again
     }
 
-    if (!hasJumped && mousePressed) {
-      ySpeed1 = -10;  // Set the initial speed in the y direction for the jump
-      hasJumped = true;  // Set the flag to true so that the object won't jump again
+    if (!hasJumped && jumping_X1 > 120 && jumping_X1 < 150 ) {
+      ySpeed1 = -23;
+      hasJumped = true;
     }
 
+    // Update character position
     jumping_Y1 += ySpeed1;
     ySpeed1 += gravity1;
 
+    // Stop jumping motion when player hits ground, allow them to jump again
     if (jumping_Y1 >= imgDadSmall_Y1) {
-      jumping_Y1 = imgDadSmall_Y1;  // Set the object on the ground
+      jumping_Y1 = imgDadSmall_Y1;  
       ySpeed1 = 0;  // Stop the vertical motion
       hasJumped = false;
     }
@@ -330,13 +375,37 @@ public class Sketch1 extends PApplet {
     if (leftPressed == true) {
       jumping_X1 -= 2;
     }
-
     if (rightPressed == true) {
       jumping_X1 += 2;
     }
 
+    // Border restriction to prevent player from moving out of the level
+    if (jumping_X1 < 0) {
+      jumping_X1 = 0;
+    }
+
+    if (jumping_X1 > 40 && jumping_X1 < 110) {
+      if (jumping_Y1 > 550) {
+        leftPressed = false;
+        rightPressed = false;
+        jumpPressed = false;
+        deathScene();
+      }
+    }
+
+
   }
 
+  public void deathScene() {
+    imgMutahar.resize(1200,700);
+    image(imgMutahar, 0, 0);
+    fill(255);
+    textSize(50);
+    textAlign(CENTER, CENTER);
+    text("YOU DIED... WOMP WOMP", width / 2, 250);
+    text("WE RECCOMMEND NOT DYING", width / 2, 300);
+    text("NEXT TIME, DON'T DIE", width / 2, 350);
+  }
 
 }
 
