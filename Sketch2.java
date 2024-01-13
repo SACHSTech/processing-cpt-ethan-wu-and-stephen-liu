@@ -16,6 +16,9 @@ public class Sketch2 extends PApplet {
   PImage imgSoccer;
   PImage imgRonaldo;
   PImage imgSuiii;
+  PImage imgLaugh;
+  PImage imgPolice;
+  PImage imgCop;
 	
   /**
    * Called once at the beginning of execution, put your size all in this method
@@ -37,6 +40,9 @@ public class Sketch2 extends PApplet {
     imgSoccer = loadImage("Soccer Net.jpg");
     imgRonaldo = loadImage("Ronaldo.png");
     imgSuiii = loadImage("Suiii.png");
+    imgLaugh = loadImage("Laugh.jpg");
+    imgPolice = loadImage("Popo.png");
+    imgCop = loadImage("Cop.png");
   }
 
   // Declare variables
@@ -48,15 +54,21 @@ public class Sketch2 extends PApplet {
   float dadY2 = 650;
   float ronaldoX = -130;
   float ronaldoY = 280;
+  float copX = 840;
+  float copY = 950;
 
   // Timer variables
 
   int timer1;
-  int dura1 = 3000;
+  int dura1 = 100000;
   int timer2;
   int dura2 = 3000;
   int timer3;
   int dura3 = 8000;
+  int timer4;
+  int dura4 = 100000;
+  int timer5;
+  int dura5 = 4000;
 
 
   // Draw background
@@ -66,6 +78,8 @@ public class Sketch2 extends PApplet {
     timer1 = millis();
     timer2 = millis();
     timer3 = millis();
+    timer4 = millis();
+    timer5 = millis();
 
   }
 
@@ -74,8 +88,8 @@ public class Sketch2 extends PApplet {
     background(3, 248, 252);
 
   // Call each level
-    level1();
-   // level3();
+    //level1();
+    level3();
     //cutScene4();
   }
 
@@ -97,6 +111,7 @@ public class Sketch2 extends PApplet {
   // Add level instructions
   textSize(25);
   text("Use WASD to control dad. (pro tip: if dad doesnt move, click the game window once ;) )", 70, 100);
+  text("oh u only have 10 mins >:)", 400, 180);
 
   // Draw dad and make dad move based on WASD presses
     if(keyPressed){
@@ -122,19 +137,27 @@ public class Sketch2 extends PApplet {
       if(elasped1 < dura1){
         imgMutahar.resize(1200, 700);
         image(imgMutahar, 0, 0);
-        //dadX = 50;
-        //dadY = 270;
+        fill(255);
+        textSize(40);
+        text("lol how did u even hit the wall???", 280, 80);
+        text("Press Alt to restart lol", 350, 600);
+
+        if(keyPressed){
+          if(keyCode == ALT){
+            dadX = 50;
+            dadY = 270;
+          }
+        }
       }
       }
-    {
+    
     // Add collision detection and show ending to level 1
     if(dadX >= 1040){
       imgMike.resize(1200, 700);
       image(imgMike, 0, 0);
       textSize(30);
-      text("pov: dads reaction to u completing this level", 300, 70);  
+      text("pov: dads reaction to u completing this level", 300, 70); 
   }
-}
     }
   
 
@@ -171,17 +194,80 @@ public class Sketch2 extends PApplet {
         dadX1-=2;
       }
       else if(key == 'd'){
-        dadX1+= 2;
+        dadX1+= 10;
       }
     }
     image(imgDadMedium, dadX1, dadY1);
 
-  // Add collision detection to detect if player goes off the road
+  // Add police guy and car and warning sign
+  imgPolice.resize(150, 180);
+  image(imgPolice, 890, 470);
+  imgCop.resize(180, 180);
+  image(imgCop, copX, copY);
+  fill(0);
+  textSize(20);
+  text("No Jaywalking!", 30, 500);
+  text("Penalty: jail lol", 30, 530);
+
+  // If dad walks near police car, cop will appear on screen
+  if(dadX1 > 500){
+    copY -= 5;
+    if(copY < 270){
+      copY += 5;
+    }
+  }
+
+  // If dad hits cop, he gets arrested
+  if(dadX1 >= copX){
+    dadX -= 2;
+      background(255, 255, 255);
+      imgCop.resize(180, 180);
+      image(imgCop, 700, 400);
+      imgDadMad.resize(150, 150);
+      image(imgDadMad, 500, 440);
+      
+
+ // Add dialogue between dad and the cop
+    textSize(30);
+    text("Cop: Y were u jaywalking???", 400, 30);
+    text("Choose either: 1. no clue OR 2. i do not care (Press 1 or 2)", 200, 100);
+    
+    if(keyPressed){
+      if(key == '1'){
+      background(255, 255, 255);
+      imgCop.resize(180, 180);
+      image(imgCop, 700, 400);
+      imgDadMad.resize(150, 150);
+      image(imgDadMad, 500, 440);
+      textSize(30);
+      text("Cop: smh is bro ok?", 400, 30);
+      text("Choose either: 1. ye im fine OR 2. im not ok", 200, 100);
+      }
+    }
+  }
+  
+
+  // Add collision detection to detect if player goes off the road and reset player
   if(dadY1 < 250 && dadX1 > 170 || dadY1 > 390){
-    dadX1 = 30;
-    dadY1 = 300;
+    int elasped4 = millis() - timer4;
+      if(elasped4 < dura4){
+    imgLaugh.resize(1200, 700);
+    image(imgLaugh, 0, 0);
+    fill(255);
+    textSize(30);
+    text("all u had to do was follow the road -_-", 300, 50);
+    text("Press Alt to restart ._.", 410, 120);
   }
+      if(keyPressed){
+      if(keyCode == ALT){
+        dadX1 = 30;
+        dadY1 = 300;
+      }
+    }
   }
+}
+  
+  
   public void cutScene4() {
 
     // Load background
