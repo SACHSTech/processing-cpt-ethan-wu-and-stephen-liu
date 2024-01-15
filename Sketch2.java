@@ -208,6 +208,30 @@ public class Sketch2 extends PApplet {
   textSize(20);
   text("No Jaywalking!", 30, 500);
   text("Penalty: jail lol", 30, 530);
+  
+  // Add collision detection to detect if player goes off the road and reset player
+  if(dadY1 < 250 && dadX1 > 170 || dadY1 > 390){
+    int elasped4 = millis() - timer4;
+      if(elasped4 < dura4){
+    imgLaugh.resize(1200, 700);
+    image(imgLaugh, 0, 0);
+    fill(255);
+    textSize(30);
+    text("all u had to do was follow the road -_-", 300, 50);
+    text("Press Alt to restart ._.", 410, 120);
+  }
+      if(keyPressed){
+      if(keyCode == ALT){
+        dadX1 = 30;
+        dadY1 = 300;
+      }
+    }
+  }
+
+  // Add collision detection to the fake portal
+  if(dadX1 <= 250 && dadY1 <= 90){
+    cutScene4();
+  }
 
   // If dad walks near police car, cop will appear on screen
   if(dadX1 > 500){
@@ -245,26 +269,6 @@ public class Sketch2 extends PApplet {
       }
     }
   }
-  
-
-  // Add collision detection to detect if player goes off the road and reset player
-  if(dadY1 < 250 && dadX1 > 170 || dadY1 > 390){
-    int elasped4 = millis() - timer4;
-      if(elasped4 < dura4){
-    imgLaugh.resize(1200, 700);
-    image(imgLaugh, 0, 0);
-    fill(255);
-    textSize(30);
-    text("all u had to do was follow the road -_-", 300, 50);
-    text("Press Alt to restart ._.", 410, 120);
-  }
-      if(keyPressed){
-      if(keyCode == ALT){
-        dadX1 = 30;
-        dadY1 = 300;
-      }
-    }
-  }
 }
   
   
@@ -298,8 +302,6 @@ public class Sketch2 extends PApplet {
     // Add collision detection to net and add death scene
     if(dadX2 >= 850){
       dadX2 -= 10;
-      int elasped2 = millis() - timer2;
-      if(elasped2 > dura2){
         imgSoccer.resize(1200, 700);
         image(imgSoccer, 0, 0);
         fill(255);
@@ -311,11 +313,13 @@ public class Sketch2 extends PApplet {
         fill(255, 0, 34);
         textSize(25);
         text("wasted", 700, dadY2);
+        textSize(30);
+        text("Press Alt to continue...", 400, 600);
     }
-  }
+  
     // Add final death scene
-    int elasped3 = millis() - timer3;
-    if(elasped3 > dura3){
+    if(keyPressed){
+      if(keyCode == ALT){
       background(255, 255, 255);
       fill(0);
       textSize(50);
@@ -324,7 +328,11 @@ public class Sketch2 extends PApplet {
       text("lol imagine walkin onto a soccer field", 320, 250);
       text("and imagine being confused for the ball LOL", 290, 350);
       text("suiiiiiiiiiiiiiiiiiii", 500, 450);
+      }
     }
+  }
+}
+
     
 
     
@@ -335,8 +343,8 @@ public class Sketch2 extends PApplet {
 
 
 
-}
-}
+
+
 
 
 
