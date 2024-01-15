@@ -45,15 +45,21 @@ public class Sketch1 extends PApplet {
   PImage imgSpikes;
   PImage imgBuilding1;
   PImage imgBuilding2;
+  PImage imgBird;
 
   double imgDadSmall_X1 = 0;
   double imgDadSmall_Y1 = 560;
-  int tramp_locations[] = {130, 450, 720};
-  int spike_locations[] = {80, 400, 840, 890, 940};
-  int building_locations[] = {200, 520, 900};
+  int tramp_locations[] = {130, 450, 940};
+  int spike_locations[] = {80, 400, 670, 780, 1050};
+  int building_locations[] = {200, 520, 1100};
+
+  int birdCount = 30;
+  float[] birdX = new float [birdCount];
+  float[] birdY = new float [birdCount];
+  int birdSpeed;
 
   int startTime1;
-  int duration1 = 5000;
+  int duration1 = 7000;
 
     // Jumping variables
     double jumping_X1 = imgDadSmall_X1;
@@ -103,6 +109,7 @@ public class Sketch1 extends PApplet {
     imgSpikes = loadImage("spikes transparent.png");
     imgBuilding1 = loadImage("building 1.png");
     imgBuilding2 = loadImage("building 2.png");
+    imgBird = loadImage("da bird.png");
     
   }
 
@@ -333,21 +340,21 @@ public class Sketch1 extends PApplet {
     image(imgBuilding1, building_locations[1], 250);
     image(imgBuilding2, building_locations[2], 250);
 
+    // Provide instructions to the player. Instructions will dissapear after 7 seconds.
+    /* int elapsedTime1 = millis() - startTime1;
+    if (elapsedTime1 < duration1) {
+      fill(0);
+      textSize(40);
+      textAlign(CENTER, CENTER);
+      text("Press backspace To jump and l/r to move :)", 400, 100);
+      text("Jump on trampolines to get over building", 400, 150);
+      text("Dont touch spike", 400, 200);
 
-    //int elapsedTime1 = millis() - startTime1;
-    //if (elapsedTime1 < duration1) {
-      //fill(0);
-      //textSize(50);
-      //textAlign(CENTER, CENTER);
-      //text("Press backspace To jump and l/r to move :)", width / 2, 300);
-      //text("Jump on trampolines to get over building", width / 2, 350);
-      //text("Dont touch spike", width / 2, 400);
-
-      // Set movement booleans to false to prevent player from moving during the text
-      //leftPressed = false;
-      //rightPressed = false;
-      //jumpPressed = false;
-    //}
+      // Set movement booleans to false to prevent player from moving during the instructions.
+      leftPressed = false;
+      rightPressed = false;
+      hasJumped = true;
+    } */
 
     if (!hasJumped && jumpPressed) {
       ySpeed1 = -12;  // Set jump height
@@ -384,14 +391,35 @@ public class Sketch1 extends PApplet {
       jumping_X1 = 0;
     }
 
+    // When player touches spike, set booleans to prevent them from moving and give them death scene.
     if (jumping_X1 > 40 && jumping_X1 < 110) {
       if (jumping_Y1 > 550) {
         leftPressed = false;
         rightPressed = false;
-        jumpPressed = false;
+        hasJumped = true;       
         deathScene();
       }
     }
+
+    
+    if (jumping_X1 > 800) {
+      // Set birds
+      for (int i1 = 0; i1 < birdCount; i1++) {
+        birdX[i1] = random(width);
+        birdY[i1] = random(200);
+        birdSpeed = 1;
+      }
+      
+      for (int i1 = 0; i1 < birdCount; i1++) {
+        image(imgBird, birdX[i1], birdY[i1]);
+      }
+    }
+
+    
+
+    
+
+    
 
 
   }
@@ -399,6 +427,10 @@ public class Sketch1 extends PApplet {
   public void deathScene() {
     imgMutahar.resize(1200,700);
     image(imgMutahar, 0, 0);
+    image(imgDadDead, 930, 380);
+    image(imgDadDead, 930, 0);
+    image(imgDadDead, 0, 380);
+    image(imgDadDead, 0, 0);
     fill(255);
     textSize(50);
     textAlign(CENTER, CENTER);
