@@ -53,10 +53,10 @@ public class Sketch1 extends PApplet {
   int spike_locations[] = {80, 400, 670, 780, 1050};
   int building_locations[] = {200, 520, 1100};
 
-  int birdCount = 30;
+  int birdCount = 50;
   float[] birdX = new float [birdCount];
   float[] birdY = new float [birdCount];
-  int birdSpeed;
+  double birdSpeed = 20;
 
   int startTime1;
   int duration1 = 7000;
@@ -109,7 +109,7 @@ public class Sketch1 extends PApplet {
     imgSpikes = loadImage("spikes transparent.png");
     imgBuilding1 = loadImage("building 1.png");
     imgBuilding2 = loadImage("building 2.png");
-    imgBird = loadImage("da bird.png");
+    imgBird = loadImage("da bird transparent.png");
     
   }
 
@@ -117,7 +117,16 @@ public class Sketch1 extends PApplet {
     background(210, 255, 173);
 
     // Level 2 setup
+      // Timer setup
     startTime1 = millis();
+      
+      // Bird arrays position setup
+    for (int i = 0; i < birdCount; i++) {
+      birdX[i] = random(width);
+      birdY[i] = random(200);
+    }
+
+
   }
 
   public void draw() {
@@ -401,28 +410,26 @@ public class Sketch1 extends PApplet {
       }
     }
 
-    
-    if (jumping_X1 > 800) {
-      // Set birds
-      for (int i1 = 0; i1 < birdCount; i1++) {
-        birdX[i1] = random(width);
-        birdY[i1] = random(200);
-        birdSpeed = 1;
+  if (jumping_X1 > 900) {
+    for (int i = 0; i < birdCount; i++) {
+      // Update bird positions
+      birdX[i] -= birdSpeed;
+
+      // If bird goes off screen, teleport them back to the start
+      if (birdX[i] < 0) {
+      birdX[i] = 1200;
+      birdY[i] = random(200);
       }
-      
-      for (int i1 = 0; i1 < birdCount; i1++) {
-        image(imgBird, birdX[i1], birdY[i1]);
-      }
+
+      // Draw birds
+      imgBird.resize(80, 50);
+      image(imgBird, birdX[i], birdY[i]);
     }
-
-    
-
-    
-
-    
-
-
   }
+  
+
+}
+  
 
   public void deathScene() {
     imgMutahar.resize(1200,700);
