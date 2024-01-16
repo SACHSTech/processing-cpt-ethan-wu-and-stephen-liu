@@ -70,6 +70,8 @@ public class Sketch2 extends PApplet {
   int timer5;
   int dura5 = 4000;
 
+  int state = 0;
+
 
   // Draw background
   public void setup() {
@@ -194,7 +196,7 @@ public class Sketch2 extends PApplet {
         dadX1-=2;
       }
       else if(key == 'd'){
-        dadX1+= 10;
+        dadX1+= 8;
       }
     }
     image(imgDadMedium, dadX1, dadY1);
@@ -252,24 +254,70 @@ public class Sketch2 extends PApplet {
       
 
  // Add dialogue between dad and the cop
+ if (state == 0) {
+  textSize(30);
+  text("Cop: Y were u jaywalking???", 420, 30);
+  text("Choose either: 1. no clue OR 2. i do not care (Press 1 or 2)", 220, 100);
+} else if (state == 1) {
+  imgCop.resize(180, 180);
+  image(imgCop, 700, 400);
+  imgDadMad.resize(150, 150);
+  image(imgDadMad, 500, 440);
+  textSize(30);
+  text("Cop: ok u need to pay a $1 fine", 420, 30);
+  text("Choose either: 1. pay fine OR 2. fight cop", 280, 100);
+} else if (state == 2) {
+  imgCop.resize(180, 180);
+  image(imgCop, 700, 400);
+  imgDadMad.resize(150, 150);
+  image(imgDadMad, 500, 440);
+  textSize(30);
+  text("Cop: u rlly dont care that ur jaywalking??", 300, 30);
+  text("Choose either: 1. care less OR 2. fight cop", 320, 100);
+  } else if(state == 3){
+  imgCop.resize(180, 180);
+  image(imgCop, 700, 400);
+  imgDadMad.resize(150, 150);
+  image(imgDadMad, 500, 440);
+  textSize(30);
+  text("BAD ENDING: YOU GOT ARRESTED... WOMP WOMP", 300, 30);
+  text("u pulled out ur wallet just to realize you have no money", 300, 100);
+  text("u got arrested for not paying a $1 fine LOL", 300, 170);
+  text("You found the arrested over $1 fine ending!", 300, 240);
+  } else if(state == 4){
+    background(255, 255, 255);
+    imgCop.resize(180, 180);
+    image(imgCop, 700, 400);
+    imgDadDead.resize(150, 150);
+    image(imgDadDead, 500, 440);
     textSize(30);
-    text("Cop: Y were u jaywalking???", 400, 30);
-    text("Choose either: 1. no clue OR 2. i do not care (Press 1 or 2)", 200, 100);
-    
-    if(keyPressed){
-      if(key == '1'){
-      background(255, 255, 255);
-      imgCop.resize(180, 180);
-      image(imgCop, 700, 400);
-      imgDadMad.resize(150, 150);
-      image(imgDadMad, 500, 440);
-      textSize(30);
-      text("Cop: smh is bro ok?", 400, 30);
-      text("Choose either: 1. ye im fine OR 2. im not ok", 200, 100);
-      }
-    }
+    text("BAD ENDING: YOU GOT SHOT... WOMP WOMP", 300, 30);
+    text("u tried to take the cops gun but he was too fast", 300, 100);
+    text("u got shot and died on the scene", 300, 170);
+    text("what were u even thinking smh... smooth brain", 300, 240);
+    text("You found the shot to death ending!", 300, 310);
+}
   }
 }
+
+  public void keyPressed() {
+    if (state == 0) {
+      if (key == '1') {
+        state = 1;
+      } else if (key == '2') {
+        state = 2;
+      }
+    } else if (state == 1) {
+      if (key == '1') {
+        state = 3;
+      } else if (key == '2') {
+        state = 4;
+      }
+    }
+    // Add more conditions for other states as needed
+  }
+
+
   
   
   public void cutScene4() {
@@ -313,13 +361,11 @@ public class Sketch2 extends PApplet {
         fill(255, 0, 34);
         textSize(25);
         text("wasted", 700, dadY2);
-        textSize(30);
-        text("Press Alt to continue...", 400, 600);
     }
   
     // Add final death scene
-    if(keyPressed){
-      if(keyCode == ALT){
+    int elasped3 = millis() - timer3;
+      if(elasped3 > dura3){
       background(255, 255, 255);
       fill(0);
       textSize(50);
@@ -331,7 +377,8 @@ public class Sketch2 extends PApplet {
       }
     }
   }
-}
+
+
 
     
 
