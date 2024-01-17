@@ -72,6 +72,8 @@ public class Sketch2 extends PApplet {
 
   int state = 0;
 
+  
+
 
   // Draw background
   public void setup() {
@@ -91,8 +93,8 @@ public class Sketch2 extends PApplet {
 
   // Call each level
     //level1();
-    level3();
-    //cutScene4();
+    //level3();
+    cutScene4();
   }
 
   public void level1(){
@@ -253,12 +255,14 @@ public class Sketch2 extends PApplet {
       image(imgDadMad, 500, 440);
       
 
- // Add dialogue between dad and the cop
+ // Ask user to choose a path
  if (state == 0) {
   textSize(30);
   text("Cop: Y were u jaywalking???", 420, 30);
   text("Choose either: 1. no clue OR 2. i do not care (Press 1 or 2)", 220, 100);
-} else if (state == 1) {
+}
+// If user chooses option 1, display 2 possible endings
+ else if (state == 1) {
   imgCop.resize(180, 180);
   image(imgCop, 700, 400);
   imgDadMad.resize(150, 150);
@@ -266,15 +270,21 @@ public class Sketch2 extends PApplet {
   textSize(30);
   text("Cop: ok u need to pay a $1 fine", 420, 30);
   text("Choose either: 1. pay fine OR 2. fight cop", 280, 100);
-} else if (state == 2) {
+} 
+
+// If user chooses option 2, display 2 possible endings
+else if (state == 2) {
   imgCop.resize(180, 180);
   image(imgCop, 700, 400);
   imgDadMad.resize(150, 150);
   image(imgDadMad, 500, 440);
   textSize(30);
   text("Cop: u rlly dont care that ur jaywalking??", 300, 30);
-  text("Choose either: 1. care less OR 2. fight cop", 320, 100);
-  } else if(state == 3){
+  text("Choose either: 1. care less OR 2. bribe cop", 320, 100);
+  } 
+
+  // If user chooses to pay fine, display bad ending
+  else if(state == 3){
   imgCop.resize(180, 180);
   image(imgCop, 700, 400);
   imgDadMad.resize(150, 150);
@@ -284,7 +294,10 @@ public class Sketch2 extends PApplet {
   text("u pulled out ur wallet just to realize you have no money", 300, 100);
   text("u got arrested for not paying a $1 fine LOL", 300, 170);
   text("You found the arrested over $1 fine ending!", 300, 240);
-  } else if(state == 4){
+  }
+  
+  // If user chooses to fight the cop, display bad ending
+  else if(state == 4){
     background(255, 255, 255);
     imgCop.resize(180, 180);
     image(imgCop, 700, 400);
@@ -296,10 +309,48 @@ public class Sketch2 extends PApplet {
     text("u got shot and died on the scene", 300, 170);
     text("what were u even thinking smh... smooth brain", 300, 240);
     text("You found the shot to death ending!", 300, 310);
+} 
+
+  // If user chooses to not care, display cutscene
+  else if(state == 5){
+    imgCop.resize(180, 180);
+    image(imgCop, 700, 400);
+    imgDadMedium.resize(150, 150);
+    image(imgDadMedium, 500, 440);
+    textSize(30);
+    text("Cop: so u dont even care???", 400, 30);
+    text("Press Alt to continue...", 430, 100);
+}
+
+  // If user chooses to bribe cop, display bad ending
+  else if(state == 6){
+    imgCop.resize(180, 180);
+    image(imgCop, 700, 400);
+    imgDadMedium.resize(150, 150);
+    image(imgDadMedium, 500, 440);
+    textSize(30);
+    text("BAD ENDING: YOU GOT ARRESTED LOL... WOMP WOMP", 300, 30);
+    text("u cared so little that u tried to bribe a cop", 300, 100);
+    text("u realized u only had $10 and tried to give the cop $10", 300, 170);
+    text("the cop didnt accept ur bribe and u got arrested", 300, 240);
+    text("You found the bribery ending!", 300, 310);
+} 
+
+  // If user chooses to not care, display good ending and let them continue to level 4
+  else if(state == 7){
+    imgCop.resize(180, 180);
+    image(imgCop, 700, 400);
+    imgDadMedium.resize(150, 150);
+    image(imgDadMedium, 500, 440);
+    textSize(30);
+    text("Cop: k since u dont care and i dont, imma just let u go", 300, 30);
+    text("GOOD ENDING: YOU DIDN'T GET ARRESTED!", 300, 200);
+    text("u realized u only had $10 and tried to give the cop $10", 300, 270);
+    text("Press Alt to continue...", 400, 400);
 }
   }
 }
-
+// Detect which key is being pressed and where to direct the player (Soccer scene included)
   public void keyPressed() {
     if (state == 0) {
       if (key == '1') {
@@ -313,8 +364,21 @@ public class Sketch2 extends PApplet {
       } else if (key == '2') {
         state = 4;
       }
-    }
-    // Add more conditions for other states as needed
+    } else if(state == 2){
+      if(key == '1'){
+        state = 5;
+      }else if(key == '2'){
+        state = 6;
+      }
+    } if(state == 5){
+      if(keyCode == ALT){
+        state = 7;
+      }
+    } if(state == 7){
+      if(keyCode == ALT){
+        // Insert level 4 method
+      }
+    } 
   }
 
 
@@ -363,9 +427,8 @@ public class Sketch2 extends PApplet {
         text("wasted", 700, dadY2);
     }
   
-    // Add final death scene
-    int elasped3 = millis() - timer3;
-      if(elasped3 > dura3){
+    // Add final death scene (NEEDS FIXING)
+    
       background(255, 255, 255);
       fill(0);
       textSize(50);
@@ -376,7 +439,8 @@ public class Sketch2 extends PApplet {
       text("suiiiiiiiiiiiiiiiiiii", 500, 450);
       }
     }
-  }
+  
+  
 
 
 
