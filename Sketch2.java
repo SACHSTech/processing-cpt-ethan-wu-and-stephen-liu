@@ -19,6 +19,12 @@ public class Sketch2 extends PApplet {
   PImage imgLaugh;
   PImage imgPolice;
   PImage imgCop;
+  PImage imgLambo;
+
+  int lamboCount = 10;
+  float[] lamboX = new float [lamboCount];
+  float[] lamboY = new float [lamboCount];
+  double lamboSpeed = 80;
 	
   /**
    * Called once at the beginning of execution, put your size all in this method
@@ -43,6 +49,7 @@ public class Sketch2 extends PApplet {
     imgLaugh = loadImage("Laugh.jpg");
     imgPolice = loadImage("Popo.png");
     imgCop = loadImage("Cop.png");
+    imgLambo = loadImage("Lambo.png");
   }
 
   // Declare variables
@@ -57,6 +64,9 @@ public class Sketch2 extends PApplet {
   float copX = 840;
   float copY = 950;
 
+  
+  
+
   // Timer variables
 
   int timer1;
@@ -64,7 +74,7 @@ public class Sketch2 extends PApplet {
   int timer2;
   int dura2 = 3000;
   int timer3;
-  int dura3 = 8000;
+  int dura3 = 13000;
   int timer4;
   int dura4 = 100000;
   int timer5;
@@ -85,6 +95,12 @@ public class Sketch2 extends PApplet {
     timer4 = millis();
     timer5 = millis();
 
+    // Bird arrays position setup
+    for (int i = 0; i < lamboCount; i++) {
+      lamboX[i] = random(width);
+      lamboY[i] = random(200);
+    }
+
   }
 
   // Draw background again for clean animations
@@ -93,8 +109,8 @@ public class Sketch2 extends PApplet {
 
   // Call each level
     //level1();
-    //level3();
-    cutScene4();
+    level3();
+    //cutScene4();
   }
 
   public void level1(){
@@ -228,6 +244,8 @@ public class Sketch2 extends PApplet {
       if(keyCode == ALT){
         dadX1 = 30;
         dadY1 = 300;
+        copX = 840;
+        copY = 950;
       }
     }
   }
@@ -236,6 +254,7 @@ public class Sketch2 extends PApplet {
   if(dadX1 <= 250 && dadY1 <= 90){
     cutScene4();
   }
+
 
   // If dad walks near police car, cop will appear on screen
   if(dadX1 > 500){
@@ -324,10 +343,11 @@ else if (state == 2) {
 
   // If user chooses to bribe cop, display bad ending
   else if(state == 6){
+    background(255, 255, 255);
     imgCop.resize(180, 180);
     image(imgCop, 700, 400);
-    imgDadMedium.resize(150, 150);
-    image(imgDadMedium, 500, 440);
+    imgDadMad.resize(150, 150);
+    image(imgDadMad, 500, 440);
     textSize(30);
     text("BAD ENDING: YOU GOT ARRESTED LOL... WOMP WOMP", 300, 30);
     text("u cared so little that u tried to bribe a cop", 300, 100);
@@ -345,7 +365,7 @@ else if (state == 2) {
     textSize(30);
     text("Cop: k since u dont care and i dont, imma just let u go", 300, 30);
     text("GOOD ENDING: YOU DIDN'T GET ARRESTED!", 300, 200);
-    text("u realized u only had $10 and tried to give the cop $10", 300, 270);
+    text("hopefully it didnt take u too long to find the right ending", 300, 270);
     text("Press Alt to continue...", 400, 400);
 }
   }
@@ -425,10 +445,11 @@ else if (state == 2) {
         fill(255, 0, 34);
         textSize(25);
         text("wasted", 700, dadY2);
-    }
+    
   
     // Add final death scene (NEEDS FIXING)
-    
+      int elasped3 = millis() - timer3;
+      if(elasped3 > dura3){
       background(255, 255, 255);
       fill(0);
       textSize(50);
@@ -439,6 +460,25 @@ else if (state == 2) {
       text("suiiiiiiiiiiiiiiiiiii", 500, 450);
       }
     }
+    }
+
+    public void lamboCar(){
+      for (int i = 0; i < lamboCount; i++) {
+        // Update bird positions
+        lamboX[i] -= lamboSpeed;
+  
+        // If bird goes off screen, teleport them back to the start
+        if (lamboX[i] < 0) {
+        lamboX[i] = 1200;
+        lamboX[i] = random(200);
+        }
+  
+        // Draw birds
+        imgLambo.resize(210, 150);
+        image(imgLambo, lamboX[i], lamboY[i]);
+    }
+    }
+  }
   
   
 
