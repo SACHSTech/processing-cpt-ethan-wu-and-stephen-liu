@@ -304,7 +304,7 @@ public class Sketch1 extends PApplet {
             image(imgUgandanKnuckles, 510, 400);
             image(imgDadMad, 1000, 500);
 
-            text("who the hell is u?", text_X3, text_Y3);
+            text("who the fuck is u?", text_X3, text_Y3);
 
             // Redraw to refresh the scene.  Draw in Dad Dead image, and add new dialogue.
             if (frameCount >= 1540) {
