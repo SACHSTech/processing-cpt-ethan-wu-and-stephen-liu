@@ -53,6 +53,7 @@ public class Sketch1 extends PApplet {
   int spike_locations[] = {80, 400, 670, 780, 1050};
   int building_locations[] = {200, 520, 1100};
 
+    // Part of Level 2, but it's in the drawBirds() method
   int birdCount = 50;
   float[] birdX = new float [birdCount];
   float[] birdY = new float [birdCount];
@@ -65,7 +66,7 @@ public class Sketch1 extends PApplet {
 
   boolean isDead;
 
-  // Jumping variables
+  // Movement method variables
   double jumping_X1 = imgDadSmall_X1;
   double jumping_Y1 = imgDadSmall_Y1;
   double xSpeed1 = 2; 
@@ -73,7 +74,7 @@ public class Sketch1 extends PApplet {
   double gravity1 = 0.5;
   boolean hasJumped = false;
   
-  // Directional movement variables
+  
   boolean upPressed = false;
   boolean downPressed = false;
   boolean leftPressed = false;
@@ -304,7 +305,7 @@ public class Sketch1 extends PApplet {
             image(imgUgandanKnuckles, 510, 400);
             image(imgDadMad, 1000, 500);
 
-            text("who the hell is u?", text_X3, text_Y3);
+            text("who in the hell is u?", text_X3, text_Y3);
 
             // Redraw to refresh the scene.  Draw in Dad Dead image, and add new dialogue.
             if (frameCount >= 1540) {
@@ -361,19 +362,10 @@ public class Sketch1 extends PApplet {
     if (jumping_X1 < 0) {
       jumping_X1 = 0;
     }
+    if (jumping_X1 > width - 50) {
+      jumping_X1 = width - 50;
+    }
 
-    // Make Character move left and right 
-    if (leftPressed == true) {
-      jumping_X1 -= 2;
-    }
-    if (rightPressed == true) {
-      jumping_X1 += 2;
-    }
-  
-    if (!hasJumped && jumpPressed) {
-      ySpeed1 = -12;  // Set jump height
-      hasJumped = true;  // Set boolean to true to prevent character from jumping again
-    }
 
     // Allow jumping on trampoline to happen when player is at trampoline coordinates
     if (!hasJumped && jumping_X1 > 120 && jumping_X1 < 150 ) {
@@ -389,17 +381,25 @@ public class Sketch1 extends PApplet {
       hasJumped = true;
     }
 
-    // Update character position for jump
-    jumping_Y1 += ySpeed1;
-    ySpeed1 += gravity1;
+    // call movement method to add movement into level
+    movementMethod();
 
-    // Stop jumping motion when player hits ground, allow them to jump again
-    if (jumping_Y1 >= imgDadSmall_Y1) {
-      jumping_Y1 = imgDadSmall_Y1;  
-      ySpeed1 = 0;  // Stop the vertical motion
+    // Add border restrictions to buildings to make sure buildings are tangible.
+    // First building restrictions
+    if (jumping_X1 + imgDadSmall.width > 200 && jumping_X1 < 200 + imgBuilding1.width && jumping_Y1 + imgDadSmall.height > 250) {
+      jumping_Y1 = 250 - imgDadSmall.height;
+      ySpeed1 = 0;
       hasJumped = false;
     }
-
+    // Second building restrictions
+    if (jumping_X1 + imgDadSmall.width > 520 && jumping_X1 < 520 + imgBuilding2.width && jumping_Y1 + imgDadSmall.height > 250) {
+      jumping_Y1 = 250 - imgDadSmall.height;
+      ySpeed1 = 0;
+      hasJumped = false;
+    }
+    
+    
+    
 
     // When player touches spikes, set booleans to prevent them from moving and give them death scene.
     if (jumping_X1 > 40 && jumping_X1 < 110) {
@@ -444,14 +444,15 @@ public class Sketch1 extends PApplet {
       }
     }
 
+    // Call draw birds method to draw birds
     drawBirds();
 
-    // Border restriction to set isDead boolean to character upon entering the border
+    // Border restriction to set isDead boolean to character upon entering the location of birds
     if (jumping_X1 > 800 && jumping_Y1 < 180) {
       isDead = true;
     }
 
-    // When Dead
+    // When Dead:
     if (isDead) {
       
         // Redraw everything
@@ -467,17 +468,19 @@ public class Sketch1 extends PApplet {
           jumping_X1 -= 2;
         }
 
-        // Show dead picture
+        // Show dead scene
         imgDadDead.resize(50,50);
         image(imgDadDead, (float)jumping_X1, (float)jumping_Y1);
 
         fill(224, 79, 164);
         rect(200, 75, 800, 60);
+        rect(200, 135, 800, 60);
 
         fill(0);
         textSize(40);
         textAlign(CENTER, CENTER);
         text("YOU GOT IMPALED BY A FLYING BIRD", width / 2, 100);
+        text("BAD ENDING; RESTART THE GAME", width/2, 160);
 
         // Laughing Pic
         imgMutahar.resize(300, 500);
@@ -486,6 +489,8 @@ public class Sketch1 extends PApplet {
         image(imgEmoji, 600, 400);
       }
       
+      // Allow player to enter the door at the end
+
     }
     
   
@@ -510,7 +515,7 @@ public class Sketch1 extends PApplet {
 
   public void drawBirds() {
   // Birds will move when player gets to x position = 900
-  if (jumping_X1 > 900) {
+  if (jumping_X1 > 800) {
     for (int i = 0; i < birdCount; i++) {
       // Update bird positions
       birdX[i] -= birdSpeed;
@@ -524,9 +529,9 @@ public class Sketch1 extends PApplet {
       // Draw birds
       imgBird.resize(80, 50);
       image(imgBird, birdX[i], birdY[i]);
+    }
   }
 }
-  }
 
   public void deathScene() {
     imgMutahar.resize(1200,700);
@@ -541,6 +546,32 @@ public class Sketch1 extends PApplet {
     text("YOU DIED... WOMP WOMP", width / 2, 250);
     text("WE RECCOMMEND NOT DYING", width / 2, 300);
     text("NEXT TIME, DON'T DIE", width / 2, 350);
+  }
+
+  public void movementMethod() {
+    // Make Character move left and right 
+    if (leftPressed == true) {
+      jumping_X1 -= 2;
+    }
+    if (rightPressed == true) {
+      jumping_X1 += 2;
+    }
+  
+    if (!hasJumped && jumpPressed) {
+      ySpeed1 = -12;  // Set jump height
+      hasJumped = true;  // Set boolean to true to prevent character from jumping again
+    }
+
+    // Update character position for jump
+    jumping_Y1 += ySpeed1;
+    ySpeed1 += gravity1;
+
+    // Stop jumping motion when player hits ground, allow them to jump again
+    if (jumping_Y1 >= imgDadSmall_Y1) {
+      jumping_Y1 = imgDadSmall_Y1;  
+      ySpeed1 = 0;  // Stop the vertical motion
+      hasJumped = false;
+    }
   }
 
 }

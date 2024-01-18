@@ -1,6 +1,5 @@
 import processing.core.PApplet;
 import processing.core.PImage;
-import java.util.Random;
 
 public class Sketch extends PApplet {
 	PImage imgDad;
