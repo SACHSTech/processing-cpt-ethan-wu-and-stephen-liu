@@ -20,11 +20,21 @@ public class Sketch2 extends PApplet {
   PImage imgPolice;
   PImage imgCop;
   PImage imgLambo;
+  PImage imgTonk;
 
-  int lamboCount = 10;
+  // Declare Lambo variables
+  int lamboCount = 1;
   float[] lamboX = new float [lamboCount];
   float[] lamboY = new float [lamboCount];
-  double lamboSpeed = 80;
+  double lamboSpeed = 3;
+  boolean lamboCrash = false;
+
+  // Declare tank variables
+  int tankCount = 1;
+  float[] tankX = new float [tankCount];
+  float[] tankY = new float [tankCount];
+  double tankSpeed = 2;
+  boolean tankCrash = false;
 	
   /**
    * Called once at the beginning of execution, put your size all in this method
@@ -50,6 +60,7 @@ public class Sketch2 extends PApplet {
     imgPolice = loadImage("Popo.png");
     imgCop = loadImage("Cop.png");
     imgLambo = loadImage("Lambo.png");
+    imgTonk = loadImage("Tonk.png");
   }
 
   // Declare variables
@@ -95,10 +106,16 @@ public class Sketch2 extends PApplet {
     timer4 = millis();
     timer5 = millis();
 
-    // Bird arrays position setup
+    // Lambo array position setup
     for (int i = 0; i < lamboCount; i++) {
-      lamboX[i] = random(width);
-      lamboY[i] = random(200);
+      lamboX[i] = 240;
+      lamboY[i] = 0;
+    }
+
+    // Tank array position setup
+    for(int i = 0; i < tankCount; i++){
+      tankX[i] = 530;
+      tankY[i] = -50;
     }
 
   }
@@ -137,16 +154,16 @@ public class Sketch2 extends PApplet {
     if(keyPressed){
 
       if(key == 'w'){
-        dadY-=2;
+        dadY-=2.5;
       }
       else if(key == 's'){
-        dadY+=2;
+        dadY+=2.5;
       }
       else if(key == 'a'){
-        dadX-=2;
+        dadX-=2.5;
       }
       else if(key == 'd'){
-        dadX+= 2;
+        dadX+= 2.5;
       }
     }
     image(imgDadMedium, dadX, dadY);
@@ -214,7 +231,7 @@ public class Sketch2 extends PApplet {
         dadX1-=2;
       }
       else if(key == 'd'){
-        dadX1+= 8;
+        dadX1+= 2;
       }
     }
     image(imgDadMedium, dadX1, dadY1);
@@ -228,6 +245,21 @@ public class Sketch2 extends PApplet {
   textSize(20);
   text("No Jaywalking!", 30, 500);
   text("Penalty: jail lol", 30, 530);
+
+  // Draw Lambo
+  lamboCar();
+
+  // Check if Lambo hits player
+  int i;
+  if(dist(dadX1, dadX2, lamboX[i], lamboY[i]) < 15 && !lamboCrash){
+    int elasped1 = millis() - timer1;
+      if(elasped1 < dura1){
+        imgMutahar.resize(1200, 700);
+        image(imgMutahar, 0, 0);
+  }
+
+  // Draw tank
+  Tank();
   
   // Add collision detection to detect if player goes off the road and reset player
   if(dadY1 < 250 && dadX1 > 170 || dadY1 > 390){
@@ -370,6 +402,7 @@ else if (state == 2) {
 }
   }
 }
+}
 // Detect which key is being pressed and where to direct the player (Soccer scene included)
   public void keyPressed() {
     if (state == 0) {
@@ -465,18 +498,32 @@ else if (state == 2) {
     public void lamboCar(){
       for (int i = 0; i < lamboCount; i++) {
         // Update bird positions
-        lamboX[i] -= lamboSpeed;
+        lamboY[i] += lamboSpeed;
   
         // If bird goes off screen, teleport them back to the start
-        if (lamboX[i] < 0) {
-        lamboX[i] = 1200;
-        lamboX[i] = random(200);
+        if (lamboY[i] > 600) {
+        lamboX[i] = 240;
+        lamboY[i] = 5;
         }
   
         // Draw birds
         imgLambo.resize(210, 150);
         image(imgLambo, lamboX[i], lamboY[i]);
     }
+    }
+
+    public void Tank(){
+      for(int i = 0; i < tankCount; i++){
+        tankY[i] += tankSpeed;
+
+        if(tankY[i] > 600){
+          tankX[i] = 530;
+          tankY[i] = -50;
+        }
+
+        imgTonk.resize(280, 210);
+        image(imgTonk, tankX[i], tankY[i]);
+      }
     }
   }
   
