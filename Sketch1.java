@@ -53,6 +53,14 @@ public class Sketch1 extends PApplet {
   int spike_locations[] = {80, 400, 670, 780, 1050};
   int building_locations[] = {200, 520, 1100};
 
+    // Level 2 Jumping 
+  double jumping_X1 = imgDadSmall_X1;
+  double jumping_Y1 = imgDadSmall_Y1;
+  double xSpeed1 = 2; 
+  double ySpeed1 = 0;
+  double gravity1 = 0.5;
+  boolean hasJumped = false;
+
     // Part of Level 2, but it's in the drawBirds() method
   int birdCount = 50;
   float[] birdX = new float [birdCount];
@@ -66,15 +74,19 @@ public class Sketch1 extends PApplet {
 
   boolean isDead;
 
-  // Movement method variables
-  double jumping_X1 = imgDadSmall_X1;
-  double jumping_Y1 = imgDadSmall_Y1;
-  double xSpeed1 = 2; 
-  double ySpeed1 = 0;
-  double gravity1 = 0.5;
-  boolean hasJumped = false;
-  
-  
+  // Level 4 Variables
+  PImage imgLevel4Background;
+  PImage imgHELP;
+  PImage imgRUN_NOW;
+  PImage imgJoeHamHappy;
+  PImage imgJoeHamScary;
+
+    int imgDadMedium_X2 = 0;
+    int imgDadMedium_Y2 = 600;
+    int jumping_X2 = imgDadMedium_X2;
+    int jumping_Y2 = imgDadMedium_Y2;
+
+  // Movement variables
   boolean upPressed = false;
   boolean downPressed = false;
   boolean leftPressed = false;
@@ -117,6 +129,12 @@ public class Sketch1 extends PApplet {
     imgBird = loadImage("da bird transparent.png");
     imgEmoji = loadImage("emoji disentegrating.png");
     
+    // Level 4 Loading
+    imgLevel4Background = loadImage("level 4 background.png");
+    imgHELP = loadImage("HELP transparent.png");
+    imgRUN_NOW = loadImage("RUN NOW transparent.png");
+    imgJoeHamHappy = loadImage("Joe Ham Happy.jpeg");
+    imgJoeHamScary = loadImage("Joe Ham Scary.jpeg");
   }
 
   public void setup() {
@@ -136,24 +154,29 @@ public class Sketch1 extends PApplet {
   }
 
   public void draw() {
+    /*
+
     // Reset background to provide clean animation
-    //background(210, 255, 173);
+    background(210, 255, 173);
 
     // Call cutscene1 Method
-    //cutscene1();
+    cutscene1();
     
     // Call cutscene2 Method
-    //cutscene2();
+    cutscene2();
 
     // Collision Detection: If the player chooses the Left route on the pathway, call cutscene3 method.
-    //if (imgDadMedium_X1 <= 600 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
-      //cutscene3();
-    //}
+    if (imgDadMedium_X1 <= 600 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
+      cutscene3();
+    }
 
-    //if (imgDadMedium_X1 >= 601 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
+    if (imgDadMedium_X1 >= 601 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
       level2();
-    //}
+    }
+    */
+    level4();
   }
+
  
   // keybinds: if you press these keys, it will move the character
   public void keyPressed() {
@@ -343,7 +366,7 @@ public class Sketch1 extends PApplet {
     image(imgDadSmall, (float)jumping_X1, (float)jumping_Y1);
 
     // Provide instructions to the player. Instructions will dissapear after 7 seconds.
-    /* int elapsedTime1 = millis() - startTime1;
+    int elapsedTime1 = millis() - startTime1;
     if (elapsedTime1 < duration1) {
       fill(0);
       textSize(40);
@@ -356,7 +379,7 @@ public class Sketch1 extends PApplet {
       leftPressed = false;
       rightPressed = false;
       hasJumped = true;
-    } */
+    } 
 
     // Border restriction to prevent player from moving out of the level
     if (jumping_X1 < 0) {
@@ -397,9 +420,6 @@ public class Sketch1 extends PApplet {
       ySpeed1 = 0;
       hasJumped = false;
     }
-    
-    
-    
 
     // When player touches spikes, set booleans to prevent them from moving and give them death scene.
     if (jumping_X1 > 40 && jumping_X1 < 110) {
@@ -489,8 +509,15 @@ public class Sketch1 extends PApplet {
         image(imgEmoji, 600, 400);
       }
       
-      // Allow player to enter the door at the end
-
+      // When player reaches door at the end, give them instructions to continue to the next level
+      if(jumping_X1 > 1100) {
+        fill(224, 79, 164);
+        rect(200, 75, 800, 60);
+        fill(0);
+        textSize(40);
+        textAlign(CENTER, CENTER);
+        text("PRESS ALT TO ENTER BUILDING", width / 2, 100);
+      } 
     }
     
   
@@ -569,6 +596,41 @@ public class Sketch1 extends PApplet {
     // Stop jumping motion when player hits ground, allow them to jump again
     if (jumping_Y1 >= imgDadSmall_Y1) {
       jumping_Y1 = imgDadSmall_Y1;  
+      ySpeed1 = 0;  // Stop the vertical motion
+      hasJumped = false;
+    }
+  }
+
+  public void level4() {
+    // Draw background and Dad
+    image(imgLevel4Background, 0, 0);
+    imgDadMedium.resize(100, 80);
+    image(imgDadMedium, (float)jumping_X2, (float)jumping_Y2);
+    
+    movementMethod2();
+  }
+
+  public void movementMethod2() {
+    // Make Character move left and right 
+    if (leftPressed == true) {
+      jumping_X2 -= 2;
+    }
+    if (rightPressed == true) {
+      jumping_X2 += 2;
+    }
+  
+    if (!hasJumped && jumpPressed) {
+      ySpeed1 = -12;  // Set jump height
+      hasJumped = true;  // Set boolean to true to prevent character from jumping again
+    }
+
+    // Update character position for jump
+    jumping_Y2 += ySpeed1;
+    ySpeed1 += gravity1;
+
+    // Stop jumping motion when player hits ground, allow them to jump again
+    if (jumping_Y2 >= imgDadMedium_Y2) {
+      jumping_Y1 = imgDadMedium_Y2;  
       ySpeed1 = 0;  // Stop the vertical motion
       hasJumped = false;
     }
