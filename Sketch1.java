@@ -2,13 +2,24 @@ import processing.core.PApplet;
 import processing.core.PImage;
  
 public class Sketch1 extends PApplet {
-  // Establish images that will be used
+  // Establish variables that will be used throughout game
   PImage imgDad;
   PImage imgDadMad;
   PImage imgDadDead;
   PImage imgDadSmall;
   PImage imgDadMedium;
   PImage imgDadMadSmall;
+
+  // Directional movement variables
+  boolean upPressed = false;
+  boolean downPressed = false;
+  boolean leftPressed = false;
+  boolean rightPressed = false;
+  boolean jumpPressed = false;
+  
+
+  // Next level boolean
+  boolean enterPressed = false;
   
   // Cutscene 1 variables
   PImage imgMom;
@@ -65,12 +76,12 @@ public class Sketch1 extends PApplet {
   int birdCount = 50;
   float[] birdX = new float [birdCount];
   float[] birdY = new float [birdCount];
-  double birdSpeed = 20;
+  float birdSpeed = 20;
 
   int startTime1;
-  int duration1 = 7000;
   int startTime2;
-  int duration2 = 500;
+  int duration1 = 7000;
+  int duration2 = 5000;
 
   boolean isDead;
 
@@ -85,15 +96,6 @@ public class Sketch1 extends PApplet {
     int imgDadMedium_Y2 = 600;
     int jumping_X2 = imgDadMedium_X2;
     int jumping_Y2 = imgDadMedium_Y2;
-
-  // Movement variables
-  
-  // Directional movement variables
-  boolean upPressed = false;
-  boolean downPressed = false;
-  boolean leftPressed = false;
-  boolean rightPressed = false;
-  boolean jumpPressed = false;
   
   
 
@@ -145,6 +147,7 @@ public class Sketch1 extends PApplet {
     // Level 2 setup
       // Timer setup
     startTime1 = millis();
+    startTime2 = millis();
       
       // Bird arrays position setup
     for (int i = 0; i < birdCount; i++) {
@@ -178,8 +181,11 @@ public class Sketch1 extends PApplet {
       level2();
     //}
     
+    if (jumping_X1 > 1100 && enterPressed == true) {
+      level4();
+    }
     
-    // level4();
+    
   }
 
  
@@ -201,7 +207,13 @@ public class Sketch1 extends PApplet {
     if (keyCode == BACKSPACE) {
       jumpPressed = true;
     }
+    
+    // Next level boolean
+    if (keyCode == ENTER) {
+      enterPressed = true;
+    } 
 
+    
   }
 
   public void keyReleased() {
@@ -371,7 +383,7 @@ public class Sketch1 extends PApplet {
     image(imgDadSmall, (float)jumping_X1, (float)jumping_Y1);
 
     // Provide instructions to the player. Instructions will dissapear after 7 seconds.
-    /* int elapsedTime1 = millis() - startTime1;
+    int elapsedTime1 = millis() - startTime1;
     if (elapsedTime1 < duration1) {
       fill(0);
       textSize(40);
@@ -384,7 +396,7 @@ public class Sketch1 extends PApplet {
       leftPressed = false;
       rightPressed = false;
       hasJumped = true;
-    }  */
+    }  
 
     // Border restriction to prevent player from moving out of the level
     if (jumping_X1 < 0) {
@@ -514,6 +526,7 @@ public class Sketch1 extends PApplet {
         }
 
         // Show dead picture
+        
         imgDadDead.resize(50,50);
         image(imgDadDead, (float)jumping_X1, (float)jumping_Y1);
 
@@ -530,18 +543,20 @@ public class Sketch1 extends PApplet {
         image(imgMutahar, 0, 200);
         // Emoji Pic
         image(imgEmoji, 600, 400);
+
       }
       
       // When player reaches door at the end, give them instructions to continue to the next level
-      if(jumping_X1 > 1100) {
+       if(jumping_X1 > 1100) {
         fill(224, 79, 164);
         rect(200, 75, 800, 60);
+
         fill(0);
         textSize(40);
         textAlign(CENTER, CENTER);
-        text("PRESS ALT TO ENTER BUILDING", width / 2, 100);
-      } 
+        text("PRESS ALT TO ENTER", width / 2, 100);
 
+      }
 
     }
     
@@ -627,6 +642,9 @@ public class Sketch1 extends PApplet {
   }
 
   public void level4() {
+    // Reset next level boolean
+    enterPressed = false;
+    
     // Draw background and Dad
     image(imgLevel4Background, 0, 0);
     imgDadMedium.resize(100, 80);
@@ -659,6 +677,11 @@ public class Sketch1 extends PApplet {
       ySpeed1 = 0;  // Stop the vertical motion
       hasJumped = false;
     }
+  }
+
+  public void testMethod() {
+    background(233, 69, 12);
+    image(imgEmoji, 69, 69);
   }
 
 }
