@@ -3,26 +3,38 @@ import processing.core.PImage;
 import java.util.Random;
 
 public class Sketch2 extends PApplet {
+
+  // Character images
 	PImage imgDad;
   PImage imgDadMad;
   PImage imgDadDead;
   PImage imgDadSmall;
   PImage imgDadMedium;
   PImage imgDadMadSmall;
+
+  // Funny troll images for level 1
   PImage imgMutahar;
   PImage imgMike;
+
+  // Images used in level 3
   PImage imgLevel3;
   PImage imgPortal;
-  PImage imgSoccer;
-  PImage imgRonaldo;
-  PImage imgSuiii;
   PImage imgLaugh;
   PImage imgPolice;
   PImage imgCop;
   PImage imgLambo;
   PImage imgTonk;
 
-  // Declare Lambo variables
+  // Images used in level 3 cutscene
+  PImage imgSoccer;
+  PImage imgRonaldo;
+  PImage imgSuiii;
+
+  // Images used in level 5
+  PImage imgLevel5;
+  PImage imgcreditCard;
+
+  // Declare Lambo variables for level 3
   int lamboCount = 1;
   float[] lamboX = new float [lamboCount];
   float[] lamboY = new float [lamboCount];
@@ -30,20 +42,17 @@ public class Sketch2 extends PApplet {
   boolean lamboCrash = false;
   boolean lamboHit = false;
 
-  // Declare tank variables
+  // Declare tank variables for level 3
   int tankCount = 1;
   float[] tankX = new float [tankCount];
   float[] tankY = new float [tankCount];
   double tankSpeed = 2;
   boolean tankCrash = false;
   boolean tankHit = false;
-	
-  /**
-   * Called once at the beginning of execution, put your size all in this method
-   */
+
   public void settings() {
 
-	// put your size call here
+	// Load character images
     size(1200, 700);
     imgDad = loadImage("Dad Game Character.png");
     imgDadMad = loadImage("Dad Game Character Kishibe Rohan.png");
@@ -51,31 +60,50 @@ public class Sketch2 extends PApplet {
     imgDadSmall = loadImage("Dad Game Character Small.png");
     imgDadMedium = loadImage("Dad Game Character Medium.png");
     imgDadMadSmall = loadImage("Dad Game Character Kishibe Rohan Small.png");
+
+    // Load images for level 1
     imgMutahar = loadImage("Mutahar Laugh.jpg");
     imgMike = loadImage("Mike Wazowski Bruh Face.jpg");
+
+    // Load images for level 3
     imgLevel3 = loadImage("Level3BG.png");
     imgPortal = loadImage("Portal1BG.png");
-    imgSoccer = loadImage("Soccer Net.jpg");
-    imgRonaldo = loadImage("Ronaldo.png");
-    imgSuiii = loadImage("Suiii.png");
     imgLaugh = loadImage("Laugh.jpg");
     imgPolice = loadImage("Popo.png");
     imgCop = loadImage("Cop.png");
     imgLambo = loadImage("Lambo.png");
     imgTonk = loadImage("Tonk.png");
+
+    // Load images for level 3 cutscene
+    imgSoccer = loadImage("Soccer Net.jpg");
+    imgRonaldo = loadImage("Ronaldo.png");
+    imgSuiii = loadImage("Suiii.png");
+
+    // Load images for level 5
+    imgLevel5 = loadImage("Level5BG.png");
+    imgcreditCard = loadImage("CreditKard.png");
   }
 
-  // Declare variables
+  // Declare variables for level 1
   float dadX = 50;
   float dadY = 270;
+
+  // Declare vairables for level 3
   float dadX1 = 30;
   float dadY1 = 300;
+  float copX = 840;
+  float copY = 950;
+
+  // Declare variables for level 3 cutscene
   float dadX2 = 300;
   float dadY2 = 650;
   float ronaldoX = -130;
   float ronaldoY = 280;
-  float copX = 840;
-  float copY = 950;
+
+  // Declare variables for level 5
+  float dadX3 = 30;
+  float dadY3 = 290;
+
 
   
   
@@ -93,6 +121,7 @@ public class Sketch2 extends PApplet {
   int timer5;
   int dura5 = 4000;
 
+  // Declare state for police interoggation
   int state = 0;
 
   
@@ -102,6 +131,7 @@ public class Sketch2 extends PApplet {
   public void setup() {
     background(3, 248, 252);
 
+    // Set each timer to millis
     timer1 = millis();
     timer2 = millis();
     timer3 = millis();
@@ -128,8 +158,9 @@ public class Sketch2 extends PApplet {
 
   // Call each level
     //level1();
-    level3();
+    //level3();
     //cutScene4();
+    level5();
   }
 
   public void level1(){
@@ -508,8 +539,11 @@ else if (state == 2) {
         if(dist(dadX1, dadX2, lamboX[i], lamboY[i]) < 120 && !lamboCrash){
           lamboHit = true;
         }
+
+        // If player gets hit, display death screen
         if(lamboHit){
           background(255, 255, 255);
+          tankY[i] = -250;
           textSize(30);
           text("YOU DIED... WOMP WOMP", 400, 30);
           text("bruh there was literally a sign saying to not jaywalk smh...", 200, 100);
@@ -520,6 +554,7 @@ else if (state == 2) {
           image(imgDadDead, 450, 350);
         }
 
+        // Reset player and lamboHit boolean by pressing Alt
         if(keyPressed){
           if(keyCode == ALT){
             lamboHit = false;
@@ -555,18 +590,21 @@ else if (state == 2) {
         if(dist(dadX1, dadX2, lamboX[i], lamboY[i]) < 120 && !lamboCrash){
           lamboHit = true;
         }
+
+        // If player is hit, display death screen 
         if(tankHit){
           background(255, 255, 255);
           textSize(30);
           text("YOU DIED... WOMP WOMP", 400, 30);
           text("bruh there was literally a sign saying to not jaywalk smh...", 200, 100);
-          text("also imagine being so big u take up the whole road LOL", 200, 170);
-          text("we recommend not jaywalking and getting plowed by a lambo", 200, 240);
+          text("also imagine not seeing the tank smh", 200, 170);
+          text("we recommend not jaywalking and getting plowed by a tank", 200, 240);
           text("Press Alt to restart...", 450, 310);
           imgDadDead.resize(250, 250);
           image(imgDadDead, 450, 350);
         }
 
+        // Reset player and tankHit boolean by pressing Alt 
         if(keyPressed){
           if(keyCode == ALT){
             tankHit = false;
@@ -575,6 +613,37 @@ else if (state == 2) {
           }
         }
         }
+      }
+
+      public void level5(){
+
+        // Load dad and background
+        image(imgLevel5, 0, 0);
+        image(imgDadMedium, dadX3, dadY3);
+
+        // Load fake cheat codes 
+        imgcreditCard.resize(200, 120);
+        image(imgcreditCard, 1, 10);
+        textSize(20);
+        text("stuck? hover ur mouse over the card to buy hacks!", 0, 170);
+
+        // Make dad move based on WASD presses
+        if(keyPressed){
+
+          if(key == 'w'){
+            dadY3-=2;
+          }
+          else if(key == 's'){
+            dadY3+=2;
+          }
+          else if(key == 'a'){
+            dadX3-=2;
+          }
+          else if(key == 'd'){
+            dadX3+= 2;
+          }
+        }
+        image(imgDadMedium, dadX3, dadY3);
       }
     }
   
