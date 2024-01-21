@@ -28,6 +28,7 @@ public class Sketch2 extends PApplet {
   float[] lamboY = new float [lamboCount];
   double lamboSpeed = 3;
   boolean lamboCrash = false;
+  boolean lamboHit = false;
 
   // Declare tank variables
   int tankCount = 1;
@@ -35,6 +36,7 @@ public class Sketch2 extends PApplet {
   float[] tankY = new float [tankCount];
   double tankSpeed = 2;
   boolean tankCrash = false;
+  boolean tankHit = false;
 	
   /**
    * Called once at the beginning of execution, put your size all in this method
@@ -249,15 +251,6 @@ public class Sketch2 extends PApplet {
   // Draw Lambo
   lamboCar();
 
-  // Check if Lambo hits player
-  int i;
-  if(dist(dadX1, dadX2, lamboX[i], lamboY[i]) < 15 && !lamboCrash){
-    int elasped1 = millis() - timer1;
-      if(elasped1 < dura1){
-        imgMutahar.resize(1200, 700);
-        image(imgMutahar, 0, 0);
-  }
-
   // Draw tank
   Tank();
   
@@ -402,7 +395,7 @@ else if (state == 2) {
 }
   }
 }
-}
+
 // Detect which key is being pressed and where to direct the player (Soccer scene included)
   public void keyPressed() {
     if (state == 0) {
@@ -497,35 +490,94 @@ else if (state == 2) {
 
     public void lamboCar(){
       for (int i = 0; i < lamboCount; i++) {
-        // Update bird positions
+
+        // Update Lambo location
         lamboY[i] += lamboSpeed;
   
-        // If bird goes off screen, teleport them back to the start
+        // If Lambo goes off screen, teleport it back to the start
         if (lamboY[i] > 600) {
         lamboX[i] = 240;
         lamboY[i] = 5;
         }
   
-        // Draw birds
+        // Draw Lambo
         imgLambo.resize(210, 150);
         image(imgLambo, lamboX[i], lamboY[i]);
+
+        // Detect if player gets hit by Lambo
+        if(dist(dadX1, dadX2, lamboX[i], lamboY[i]) < 120 && !lamboCrash){
+          lamboHit = true;
+        }
+        if(lamboHit){
+          background(255, 255, 255);
+          textSize(30);
+          text("YOU DIED... WOMP WOMP", 400, 30);
+          text("bruh there was literally a sign saying to not jaywalk smh...", 200, 100);
+          text("also imagine being so big u take up the whole road LOL", 200, 170);
+          text("we recommend not jaywalking and getting plowed by a lambo", 200, 240);
+          text("Press Alt to restart...", 450, 310);
+          imgDadDead.resize(250, 250);
+          image(imgDadDead, 450, 350);
+        }
+
+        if(keyPressed){
+          if(keyCode == ALT){
+            lamboHit = false;
+            dadX1 = 30;
+            dadY1 = 300;
+          }
+        }
     }
     }
+  
 
     public void Tank(){
       for(int i = 0; i < tankCount; i++){
+
+        // Update tank location
         tankY[i] += tankSpeed;
 
+        // If tank goes off screen, reset its position
         if(tankY[i] > 600){
           tankX[i] = 530;
           tankY[i] = -50;
         }
-
+        
+        // Draw tank
         imgTonk.resize(280, 210);
         image(imgTonk, tankX[i], tankY[i]);
+
+        // Detect if player gets hit by tank
+        if(dist(dadX1, dadX2, tankX[i], tankY[i]) < 180 && !tankCrash){
+          tankHit = true;
+        }
+          // Detect if player gets hit by Lambo
+        if(dist(dadX1, dadX2, lamboX[i], lamboY[i]) < 120 && !lamboCrash){
+          lamboHit = true;
+        }
+        if(tankHit){
+          background(255, 255, 255);
+          textSize(30);
+          text("YOU DIED... WOMP WOMP", 400, 30);
+          text("bruh there was literally a sign saying to not jaywalk smh...", 200, 100);
+          text("also imagine being so big u take up the whole road LOL", 200, 170);
+          text("we recommend not jaywalking and getting plowed by a lambo", 200, 240);
+          text("Press Alt to restart...", 450, 310);
+          imgDadDead.resize(250, 250);
+          image(imgDadDead, 450, 350);
+        }
+
+        if(keyPressed){
+          if(keyCode == ALT){
+            tankHit = false;
+            dadX1 = 30;
+            dadY1 = 300;
+          }
+        }
+        }
       }
     }
-  }
+  
   
   
 
