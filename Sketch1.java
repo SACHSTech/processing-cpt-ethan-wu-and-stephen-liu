@@ -16,6 +16,7 @@ public class Sketch1 extends PApplet {
   boolean leftPressed = false;
   boolean rightPressed = false;
   boolean jumpPressed = false;
+  boolean shiftPressed = false;
   
 
   // Next level boolean
@@ -91,11 +92,20 @@ public class Sketch1 extends PApplet {
   PImage imgRUN_NOW;
   PImage imgJoeHamHappy;
   PImage imgJoeHamScary;
+  PImage imgSignRead;
 
+    // Level 4 jumping variables
     int imgDadMedium_X2 = 0;
     int imgDadMedium_Y2 = 600;
     int jumping_X2 = imgDadMedium_X2;
     int jumping_Y2 = imgDadMedium_Y2;
+  
+    // Level 4 sign variables to detect if mouse is hovering over sign
+    int signX = 200;
+    int signY = 580;
+    int signWidth = 100;
+    int signHeight = 50;
+    boolean mouseOverSign = false;
   
   
 
@@ -137,8 +147,9 @@ public class Sketch1 extends PApplet {
     imgLevel4Background = loadImage("level 4 background.png");
     imgHELP = loadImage("HELP transparent.png");
     imgRUN_NOW = loadImage("RUN NOW transparent.png");
-    imgJoeHamHappy = loadImage("Joe Ham Happy.jpeg");
-    imgJoeHamScary = loadImage("Joe Ham Scary.jpeg");
+    imgJoeHamHappy = loadImage("joe ham happy transparent.png");
+    imgJoeHamScary = loadImage("joe ham scary transparent.png");
+    imgSignRead = loadImage("sign read.png");
   }
 
   public void setup() {
@@ -178,12 +189,12 @@ public class Sketch1 extends PApplet {
     */
 
     //if (imgDadMedium_X1 >= 601 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
-      level2();
+      //level2();
     //}
     
-    if (jumping_X1 > 1100 && enterPressed == true) {
+    //if (jumping_X1 > 1100 && enterPressed == true) {
       level4();
-    }
+    //}
     
     
   }
@@ -206,6 +217,9 @@ public class Sketch1 extends PApplet {
     }
     if (keyCode == BACKSPACE) {
       jumpPressed = true;
+    }
+    if (keyCode == SHIFT) {
+      shiftPressed = true;
     }
     
     // Next level boolean
@@ -232,6 +246,9 @@ public class Sketch1 extends PApplet {
     }
     if (keyCode == BACKSPACE) {
       jumpPressed = false;
+    }
+    if (keyCode == SHIFT) {
+      shiftPressed = false;
     }
   }
 
@@ -554,7 +571,7 @@ public class Sketch1 extends PApplet {
         fill(0);
         textSize(40);
         textAlign(CENTER, CENTER);
-        text("PRESS ALT TO ENTER", width / 2, 100);
+        text("PRESS ENTER TO ENTER", width / 2, 100);
 
       }
 
@@ -596,9 +613,9 @@ public class Sketch1 extends PApplet {
       // Draw birds
       imgBird.resize(80, 50);
       image(imgBird, birdX[i], birdY[i]);
+    }
   }
 }
-  }
 
   public void deathScene() {
     imgMutahar.resize(1200,700);
@@ -642,15 +659,42 @@ public class Sketch1 extends PApplet {
   }
 
   public void level4() {
-    // Reset next level boolean
-    enterPressed = false;
+    // Keep boolean as true to prevent level from reverting
+    enterPressed = true;
     
     // Draw background and Dad
     image(imgLevel4Background, 0, 0);
     imgDadMedium.resize(100, 80);
     image(imgDadMedium, (float)jumping_X2, (float)jumping_Y2);
     
+    // Load in movement
     movementMethod2();
+
+    // Border restriction to prevent player from moving out of level
+    if (jumping_X2 < 0) {
+      shiftPressed = false;
+      jumping_X2 += 2;
+    }
+
+    // Display little hint
+    fill(0);
+    textSize(20);
+    text("HINT: CLICK & HOLD MOUSE OVER THE SIGN", 0, 20);
+
+    // Detect is mouse is hovering over sign
+    if (mouseX > signX && mouseX < signX + signWidth &&
+      mouseY > signY && mouseY < signY + signHeight) {
+      mouseOverSign = true;
+    } 
+    else {
+      mouseOverSign = false;
+    }
+
+    // Display sign contents if mouse is clicking sign
+    if(mouseOverSign == true && mousePressed) {
+      image(imgSignRead, 150, 100);
+    }
+    
   }
 
   public void movementMethod2() {
@@ -677,11 +721,11 @@ public class Sketch1 extends PApplet {
       ySpeed1 = 0;  // Stop the vertical motion
       hasJumped = false;
     }
-  }
 
-  public void testMethod() {
-    background(233, 69, 12);
-    image(imgEmoji, 69, 69);
+    // Sprinting when holding shift
+    if (rightPressed == true && shiftPressed == true) {
+      jumping_X2 = jumping_X2 + 4;
+    }
   }
 
 }
