@@ -81,8 +81,6 @@ public class Sketch1 extends PApplet {
 
   int startTime;
   int duration1 = 7000;
-  
-  
 
   boolean isDead;
 
@@ -97,6 +95,8 @@ public class Sketch1 extends PApplet {
   PImage imgDadShotgun;
   PImage imgJoeHamShotguns;
 
+  boolean sequenceDone = false;
+
   int eyeballCount = 20;
   float[] eyeballX = new float [eyeballCount];
   float[] eyeballY = new float [eyeballCount];
@@ -105,8 +105,10 @@ public class Sketch1 extends PApplet {
   // Level 4 arrays for text
   int[] intDurationsLvl4 = {5000, 5000, 6000, 6000, 7000};
   int currentText = 0;
-  String[] textJoeHam = {"Hi!", "My name is JOE HAM.", "Wait, you are not a pig.", "You are not welcome here!", "GO BACK TO WHERE YOU CAME FROM!!!!"};
+  String[] textJoeHam = {"Hi new guy!", "Pst, the secret code is 1945", "Wait, you are not a pig.", "You are not welcome here!", "LEAVE BEFORE I SHOOT YOU!!!!"};
   
+  float[] dadBulletLocations = {520, 550, 580};
+  float[] joeHamBulletLocations = {520, 550, 580};
 
     // Level 4 jumping variables
     int imgDadMedium_X2 = 0;
@@ -121,6 +123,19 @@ public class Sketch1 extends PApplet {
     int signHeight = 50;
     boolean mouseOverSign = false;
   
+  // Level 6 variables
+  PImage img1;
+  PImage img2;
+  PImage img3;
+  PImage img4;
+  PImage img5;
+  PImage img6;
+  PImage img7;
+  PImage img8;
+  PImage img9;
+
+  int numberSize = 50;
+  int numberMargin = 5;
 
 
   public void settings() {
@@ -166,6 +181,17 @@ public class Sketch1 extends PApplet {
     imgEyeballs = loadImage("eyeballs.png");
     imgDadShotgun = loadImage("dad shotgun.png");
     imgJoeHamShotguns = loadImage("joe ham shotguns.png");
+
+    // Level 6 Loading
+    img1 = loadImage("1.png");
+    img2 = loadImage("2.png");
+    img3 = loadImage("3.png");
+    img4 = loadImage("4.png");
+    img5 = loadImage("5.png");
+    img6 = loadImage("6.png");
+    img7 = loadImage("7.png");
+    img8 = loadImage("8.png");
+    img9 = loadImage("9.png");
   }
 
   public void setup() {
@@ -216,7 +242,11 @@ public class Sketch1 extends PApplet {
     //}
     
     //if (jumping_X1 > 1100 && enterPressed == true) {
-      level4();
+      //level4();
+    //}
+
+    //if (sequenceDone) {
+      level6();
     //}
     
     
@@ -224,6 +254,15 @@ public class Sketch1 extends PApplet {
 
  
   // keybinds: if you press these keys, it will move the character
+  /**
+   * @param upPressed boolean that allows up movement
+   * @param downPressed boolean that allows down movement
+   * @param leftPressed boolean that allows left movement
+   * @param rightPressed boolean that allows right movement
+   * @param jumpPressed boolean that allows jump
+   * @param shiftPressed boolean that allows sprint
+   * @param enterPressed boolean that allows enter next level
+   */
   public void keyPressed() {
     // Keybinds for movement
     if (key == 'u') {
@@ -249,8 +288,6 @@ public class Sketch1 extends PApplet {
     if (keyCode == ENTER) {
       enterPressed = true;
     } 
-
-    
   }
 
   public void keyReleased() {
@@ -599,7 +636,6 @@ public class Sketch1 extends PApplet {
       }
 
     }
-    
   
   
   public void level2Background() {
@@ -758,10 +794,7 @@ public class Sketch1 extends PApplet {
 
       // Check if all texts have been displayed
       if (currentText >= textJoeHam.length) {
-        imgDadShotgun.resize(180, 180);
-        image(imgDadShotgun, 900, 550);
-        imgJoeHamShotguns.resize(200,200);
-        image(imgJoeHamShotguns, 440, 500);
+        sequenceDone = true;
         return;
       } else {
         // Update the start time for the next text
@@ -776,6 +809,7 @@ public class Sketch1 extends PApplet {
     }
   }
 
+  
   public void movementMethod2() {
     // Make Character move left and right 
     if (leftPressed == true) {
@@ -808,6 +842,29 @@ public class Sketch1 extends PApplet {
     if (rightPressed == true && shiftPressed == true) {
       jumping_X2 = jumping_X2 + 4;
     }
+  }
+
+  public void level6() {
+    background(0);
+
+    for (int i = 0; i <= 1200; i += 50) {
+      for (int j = 0; j <= 700; j += 50) {
+        fill(192, 227, 54);  
+        rect(i, j, 50, 50);
+      }
+    }
+
+    image(img9, 700, 500);
+    image(img8, 500, 500);
+    image(img7, 300, 500);
+    image(img6, 700, 300);
+    image(img5, 500, 300);
+    image(img4, 300, 300);
+    image(img3, 700, 100);
+    image(img2, 500, 100);
+    image(img1, 300, 100);
+
+    
   }
 
 }
