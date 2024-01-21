@@ -79,10 +79,10 @@ public class Sketch1 extends PApplet {
   float[] birdY = new float [birdCount];
   float birdSpeed = 20;
 
-  int startTime1;
-  int startTime2;
+  int startTime;
   int duration1 = 7000;
-  int duration2 = 5000;
+  
+  
 
   boolean isDead;
 
@@ -93,6 +93,20 @@ public class Sketch1 extends PApplet {
   PImage imgJoeHamHappy;
   PImage imgJoeHamScary;
   PImage imgSignRead;
+  PImage imgEyeballs;
+  PImage imgDadShotgun;
+  PImage imgJoeHamShotguns;
+
+  int eyeballCount = 20;
+  float[] eyeballX = new float [eyeballCount];
+  float[] eyeballY = new float [eyeballCount];
+
+  boolean drawJoeHamHappy = false;
+  // Level 4 arrays for text
+  int[] intDurationsLvl4 = {5000, 5000, 6000, 6000, 7000};
+  int currentText = 0;
+  String[] textJoeHam = {"Hi!", "My name is JOE HAM.", "Wait, you are not a pig.", "You are not welcome here!", "GO BACK TO WHERE YOU CAME FROM!!!!"};
+  
 
     // Level 4 jumping variables
     int imgDadMedium_X2 = 0;
@@ -106,7 +120,6 @@ public class Sketch1 extends PApplet {
     int signWidth = 100;
     int signHeight = 50;
     boolean mouseOverSign = false;
-  
   
 
 
@@ -150,6 +163,9 @@ public class Sketch1 extends PApplet {
     imgJoeHamHappy = loadImage("joe ham happy transparent.png");
     imgJoeHamScary = loadImage("joe ham scary transparent.png");
     imgSignRead = loadImage("sign read.png");
+    imgEyeballs = loadImage("eyeballs.png");
+    imgDadShotgun = loadImage("dad shotgun.png");
+    imgJoeHamShotguns = loadImage("joe ham shotguns.png");
   }
 
   public void setup() {
@@ -157,15 +173,22 @@ public class Sketch1 extends PApplet {
 
     // Level 2 setup
       // Timer setup
-    startTime1 = millis();
-    startTime2 = millis();
+    startTime = millis();
       
       // Bird arrays position setup
-    for (int i = 0; i < birdCount; i++) {
+      for (int i = 0; i < birdCount; i++) {
       birdX[i] = random(width);
+      // random Y coordinate between 0-199
       birdY[i] = random(200);
     }
 
+    // Level 4 setup
+      // Eyeball setup
+    for (int i = 0; i < eyeballCount; i++) {
+      eyeballX[i] = random(width);
+      // Random Y coordinate between 0-149
+      eyeballY[i] = random(150);
+    }
 
   }
 
@@ -400,8 +423,8 @@ public class Sketch1 extends PApplet {
     image(imgDadSmall, (float)jumping_X1, (float)jumping_Y1);
 
     // Provide instructions to the player. Instructions will dissapear after 7 seconds.
-    int elapsedTime1 = millis() - startTime1;
-    if (elapsedTime1 < duration1) {
+    int elapsedTime = millis() - startTime;
+    if (elapsedTime < duration1) {
       fill(0);
       textSize(40);
       textAlign(CENTER, CENTER);
@@ -661,6 +684,8 @@ public class Sketch1 extends PApplet {
   public void level4() {
     // Keep boolean as true to prevent level from reverting
     enterPressed = true;
+    // Player will not be able to move left in this level
+    leftPressed = false;
     
     // Draw background and Dad
     image(imgLevel4Background, 0, 0);
@@ -673,7 +698,10 @@ public class Sketch1 extends PApplet {
     // Border restriction to prevent player from moving out of level
     if (jumping_X2 < 0) {
       shiftPressed = false;
-      jumping_X2 += 2;
+      jumping_X2 += 4;
+    }
+    if (jumping_Y2 < 300) {
+      jumping_Y2 = imgDadMedium_Y2;
     }
 
     // Display little hint
@@ -695,6 +723,57 @@ public class Sketch1 extends PApplet {
       image(imgSignRead, 150, 100);
     }
     
+    // Draw eyeballs when the player is actively moving
+    if (rightPressed || leftPressed || jumpPressed == true) {
+      for (int i = 0; i < eyeballCount; i++) {
+        imgEyeballs.resize(70,70);
+        image(imgEyeballs, eyeballX[i], eyeballY[i]);
+      }
+    }
+    
+    
+
+  // Check if Joe Ham should be drawn based on player's X coordinates
+  if (jumping_X2 > 1000 && !drawJoeHamHappy) {
+    drawJoeHamHappy = true;
+  }
+
+  // Draw Joe Ham and cutscene
+  if (drawJoeHamHappy) {
+    imgJoeHamHappy.resize(200, 200);
+    image(imgJoeHamHappy, 270, 500);
+
+    if (jumping_X2 > 1000) {
+      jumping_X2 = 1000;
+    } 
+    if (jumping_X2 < 1000) {
+      jumping_X2 = 1000;
+    } 
+
+    int elapsedTime = millis() - startTime;
+
+    if (elapsedTime > intDurationsLvl4[currentText]) {
+      // Move to the next text after the current display time has passed
+      currentText++;
+
+      // Check if all texts have been displayed
+      if (currentText >= textJoeHam.length) {
+        imgDadShotgun.resize(180, 180);
+        image(imgDadShotgun, 900, 550);
+        imgJoeHamShotguns.resize(200,200);
+        image(imgJoeHamShotguns, 440, 500);
+        return;
+      } else {
+        // Update the start time for the next text
+        startTime = millis();
+      }
+    }
+
+    // Display text
+    fill(255);
+    textSize(40);
+    text(textJoeHam[currentText], 200, 500);
+    }
   }
 
   public void movementMethod2() {
@@ -723,6 +802,9 @@ public class Sketch1 extends PApplet {
     }
 
     // Sprinting when holding shift
+    if (leftPressed == true && shiftPressed == true) {
+      jumping_X2 = jumping_X2 - 4;
+    }
     if (rightPressed == true && shiftPressed == true) {
       jumping_X2 = jumping_X2 + 4;
     }
