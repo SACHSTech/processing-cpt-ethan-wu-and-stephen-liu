@@ -91,12 +91,15 @@ public class Sketch1 extends PApplet {
   PImage imgSignRead;
   PImage imgEyeballs;
   PImage imgShotgun;
+  PImage imgJoeHamScary;
+  PImage imgWalkieTalkie;
+  PImage imgNuke;
 
   int eyeballCount = 20;
   float[] eyeballX = new float [eyeballCount];
   float[] eyeballY = new float [eyeballCount];
 
-  int duration2 = 5000;
+  int duration2 = 10000;
 
     // Level 4 jumping variables
     int imgDadMedium_X2 = 0;
@@ -123,21 +126,13 @@ public class Sketch1 extends PApplet {
     int numLives = 15;
     float playerRadius = 40;
 
+    // Level 4 nuke variables
+    int nukeX = 100;
+    int nukeY = -500;
+
+    // Cutscene 4 variables
+    PImage imgNukeBackground;
   
-  // Level 6 variables
-  PImage img1;
-  PImage img2;
-  PImage img3;
-  PImage img4;
-  PImage img5;
-  PImage img6;
-  PImage img7;
-  PImage img8;
-  PImage img9;
-
-  int numberSize = 50;
-  int numberMargin = 5;
-
 
   public void settings() {
     size(1200, 700);
@@ -178,18 +173,13 @@ public class Sketch1 extends PApplet {
     imgSignRead = loadImage("sign read.png");
     imgEyeballs = loadImage("eyeballs.png");
     imgShotgun = loadImage("joe ham shotgun.png");
+    imgJoeHamScary = loadImage("joe ham scary transparent.png");
+    imgWalkieTalkie = loadImage("walkie talkie.png");
+    imgNuke = loadImage("nuke.png");
 
+    // Cutscene 4 loading
+    imgNukeBackground = loadImage("nuke background.jpg");
 
-    // Level 6 Loading
-    img1 = loadImage("1.png");
-    img2 = loadImage("2.png");
-    img3 = loadImage("3.png");
-    img4 = loadImage("4.png");
-    img5 = loadImage("5.png");
-    img6 = loadImage("6.png");
-    img7 = loadImage("7.png");
-    img8 = loadImage("8.png");
-    img9 = loadImage("9.png");
   }
 
   public void setup() {
@@ -226,32 +216,31 @@ public class Sketch1 extends PApplet {
     
 
     // Reset background to provide clean animation
-    background(210, 255, 173);
+    //background(210, 255, 173);
 
     // Call cutscene1 Method
-    cutscene1();
+    //cutscene1();
     
     // Call cutscene2 Method
-    cutscene2();
+    //cutscene2();
 
     // Collision Detection: If the player chooses the Left route on the pathway, call cutscene3 method.
-    if (imgDadMedium_X1 <= 600 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
-      cutscene3();
-    }
+    //if (imgDadMedium_X1 <= 600 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
+      //cutscene3();
+    //}
 
     
 
-    if (imgDadMedium_X1 >= 601 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
-      level2();
-    }
+    //if (imgDadMedium_X1 >= 601 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
+      //level2();
+    //}
     
-    if (jumping_X1 > 1100 && enterPressed == true) {
+    
       level4();
+  
+    if (nukeY > 1000) {
+      cutscene4();
     }
-
-    
-      //level6();
-    
     
     
   }
@@ -723,13 +712,15 @@ public class Sketch1 extends PApplet {
 
   public void level4() {
     
-    // Keep boolean as true to prevent level from reverting
-    enterPressed = true;
     // Player will not be able to move left in this level
     leftPressed = false;
     
     // Draw background and Dad
     image(imgLevel4Background, 0, 0);
+    imgWalkieTalkie.resize(100,100);
+    image(imgWalkieTalkie, 1100, 600);
+    image(imgNuke, nukeX, nukeY);
+
     imgDadMedium.resize(100, 80);
     image(imgDadMedium, (float)jumping_X2, (float)jumping_Y2);
     
@@ -763,7 +754,7 @@ public class Sketch1 extends PApplet {
     }
 
     // Display sign contents if mouse is clicking sign
-    if(mouseOverSign == true && mousePressed && jumping_X2 < 300) {
+    if(mouseOverSign == true && mousePressed) {
       image(imgSignRead, 150, 100);
     }
     
@@ -817,8 +808,12 @@ public class Sketch1 extends PApplet {
           deathScene2();
         }
       }
-      
+      if (jumping_X2 > 1050) {
+        nukeY += 15;
+      }
     }
+
+    
 
   }
 
@@ -858,8 +853,8 @@ public class Sketch1 extends PApplet {
   }
 
   public void deathScene2() {
-    imgMutahar.resize(1200,700);
-    image(imgMutahar, 0, 0);
+    imgJoeHamScary.resize(1200,700);
+    image(imgJoeHamScary, 0, 0);
     image(imgDadDead, 930, 380);
     image(imgDadDead, 930, 0);
     image(imgDadDead, 0, 380);
@@ -874,28 +869,21 @@ public class Sketch1 extends PApplet {
     text("RESTART THE GAME", width / 2, 450);
   }
 
-  public void level6() {
-    background(0);
+  public void cutscene4() {
+    imgNukeBackground.resize(1200,700);
+    image(imgNukeBackground, 0, 0);
 
-    for (int i = 0; i <= 1200; i += 50) {
-      for (int j = 0; j <= 700; j += 50) {
-        fill(28, 224, 25);  
-        rect(i, j, 20, 20);
-      }
-    }
+    fill(51, 255, 0);
+    textSize(50);
+    textAlign(CENTER, CENTER);
+    text("CONGRATULATIONS", width / 2, 200);
+    text("YOU CALLED AN AIRSTRIKE", width / 2, 280);
+    text("TO DEFEAT THE EVIL JOE HAM", width / 2, 360);
+    text("AND YOU RETURNED HOME", width / 2, 440);
+    text("WITH FRESH PORK FOR DINNER", width / 2, 520);
+  }  
 
-    image(img9, 700, 500);
-    image(img8, 500, 500);
-    image(img7, 300, 500);
-    image(img6, 700, 300);
-    image(img5, 500, 300);
-    image(img4, 300, 300);
-    image(img3, 700, 100);
-    image(img2, 500, 100);
-    image(img1, 300, 100);
-
-    
-  }
+  
 
 }
 
