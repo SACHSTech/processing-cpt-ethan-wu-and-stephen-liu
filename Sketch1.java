@@ -2,7 +2,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
  
 public class Sketch1 extends PApplet {
-
+  
   // Establish variables that will be used throughout game
   PImage imgDad;
   PImage imgDadMad;
@@ -99,6 +99,7 @@ public class Sketch1 extends PApplet {
   float[] eyeballX = new float [eyeballCount];
   float[] eyeballY = new float [eyeballCount];
 
+  int startTime2;
   int duration2 = 10000;
 
     // Level 4 jumping variables
@@ -197,6 +198,8 @@ public class Sketch1 extends PApplet {
     }
 
     // Level 4 setup
+    startTime2 = millis();
+
       // Eyeball setup
     for (int i = 0; i < eyeballCount; i++) {
       eyeballX[i] = random(width);
@@ -216,28 +219,27 @@ public class Sketch1 extends PApplet {
     
 
     // Reset background to provide clean animation
-    //background(210, 255, 173);
+    background(210, 255, 173);
 
     // Call cutscene1 Method
-    //cutscene1();
+    cutscene1();
     
     // Call cutscene2 Method
-    //cutscene2();
+    cutscene2();
 
     // Collision Detection: If the player chooses the Left route on the pathway, call cutscene3 method.
-    //if (imgDadMedium_X1 <= 600 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
-      //cutscene3();
-    //}
+    if (imgDadMedium_X1 <= 600 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
+      cutscene3();
+    }
 
+    if (imgDadMedium_X1 >= 601 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
+      level2();
+    }
     
-
-    //if (imgDadMedium_X1 >= 601 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
-      //level2();
-    //}
-    
-    
+    if (jumping_X1 > 1100) {
       level4();
-  
+    }
+
     if (nukeY > 1000) {
       cutscene4();
     }
@@ -711,7 +713,6 @@ public class Sketch1 extends PApplet {
   }
 
   public void level4() {
-    
     // Player will not be able to move left in this level
     leftPressed = false;
     
@@ -768,7 +769,7 @@ public class Sketch1 extends PApplet {
 
     boolean joeHamAppeared = false;
 
-    if (!joeHamAppeared && millis() - startTime >= duration2) {
+    if (!joeHamAppeared && millis() - startTime2 >= duration2) {
         imgJoeHamHappy.resize(200,200);
         image(imgJoeHamHappy, 0, 500);
         imgShotgun.resize(100,60);
@@ -867,6 +868,7 @@ public class Sketch1 extends PApplet {
     text("BY JOE HAM", width / 2, 350);
     text("SUGGESTION: DONT GET SHOT", width / 2, 400);
     text("RESTART THE GAME", width / 2, 450);
+
   }
 
   public void cutscene4() {
