@@ -562,12 +562,13 @@ public class Sketch1 extends PApplet {
         image(imgDadDead, (float)jumping_X1, (float)jumping_Y1);
 
         fill(224, 79, 164);
-        rect(200, 75, 800, 60);
+        rect(200, 75, 800, 120);
 
         fill(0);
         textSize(40);
         textAlign(CENTER, CENTER);
         text("YOU GOT IMPALED BY A FLYING BIRD", width / 2, 100);
+        text("PRESS ENTER TO RESET", width / 2, 150);
 
         // Laughing Pic
         imgMutahar.resize(300, 500);
@@ -605,7 +606,7 @@ public class Sketch1 extends PApplet {
         fill(0);
         textSize(40);
         textAlign(CENTER, CENTER);
-        text("ENTER DOOR", width / 2, 100);
+        text("U ARE DEAD, STOP TRYING TO CHEAT", width / 2, 100);
 
       }
 
