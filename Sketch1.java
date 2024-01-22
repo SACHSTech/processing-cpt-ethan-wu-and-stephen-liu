@@ -120,7 +120,7 @@ public class Sketch1 extends PApplet {
     float[] bulletX = new float[bullet_count];
     int bulletY = 630;
     float[] bulletSpeed = new float[bullet_count];
-    int numLives = 5;
+    int numLives = 15;
     float playerRadius = 40;
 
   
