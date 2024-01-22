@@ -3,6 +3,8 @@ import processing.core.PImage;
  
 public class Sketch1 extends PApplet {
   
+
+  
   // Establish variables that will be used throughout game
   PImage imgDad;
   PImage imgDadMad;
@@ -81,9 +83,7 @@ public class Sketch1 extends PApplet {
   float birdSpeed = 20;
 
   int startTime;
-  int duration1 = 7000;
-
-  boolean isDead;
+  boolean isDead = false;
 
   // Level 4 Variables
   PImage imgLevel4Background;
@@ -91,13 +91,12 @@ public class Sketch1 extends PApplet {
   PImage imgSignRead;
   PImage imgEyeballs;
   PImage imgShotgun;
-  PImage imgJoeHamScary;
   PImage imgWalkieTalkie;
   PImage imgNuke;
 
   int eyeballCount = 20;
   float[] eyeballX = new float [eyeballCount];
-  float[] eyeballY = new float [eyeballCount];
+  int eyeballY = 500;
 
   int startTime2;
   int duration2 = 10000;
@@ -174,7 +173,6 @@ public class Sketch1 extends PApplet {
     imgSignRead = loadImage("sign read.png");
     imgEyeballs = loadImage("eyeballs.png");
     imgShotgun = loadImage("joe ham shotgun.png");
-    imgJoeHamScary = loadImage("joe ham scary transparent.png");
     imgWalkieTalkie = loadImage("walkie talkie.png");
     imgNuke = loadImage("nuke.png");
 
@@ -204,7 +202,6 @@ public class Sketch1 extends PApplet {
     for (int i = 0; i < eyeballCount; i++) {
       eyeballX[i] = random(width);
       // Random Y coordinate between 0-149
-      eyeballY[i] = random(150);
     }
 
       // Bullet setup
@@ -236,7 +233,7 @@ public class Sketch1 extends PApplet {
       level2();
     }
     
-    if (jumping_X1 > 1100) {
+    if (jumping_X1 > 1100 && !isDead) {
       level4();
     }
 
@@ -304,6 +301,9 @@ public class Sketch1 extends PApplet {
     }
     if (keyCode == SHIFT) {
       shiftPressed = false;
+    }
+    if (keyCode == ENTER) {
+      enterPressed = false;
     }
   }
 
@@ -451,24 +451,15 @@ public class Sketch1 extends PApplet {
   public void level2() {
     // Draw level and Dad character
     level2Background();
-
     image(imgDadSmall, (float)jumping_X1, (float)jumping_Y1);
 
-    // Provide instructions to the player. Instructions will dissapear after 7 seconds.
-    int elapsedTime = millis() - startTime;
-    if (elapsedTime < duration1) {
-      fill(0);
+    
       textSize(40);
       textAlign(CENTER, CENTER);
       text("Press backspace To jump and l/r to move :)", 400, 100);
       text("Jump on trampolines to get over building", 400, 150);
       text("Dont touch spike", 400, 200);
-
-      // Set movement booleans to false to prevent player from moving during the instructions.
-      leftPressed = false;
-      rightPressed = false;
-      hasJumped = true;
-    }  
+    
 
     // Border restriction to prevent player from moving out of the level
     if (jumping_X1 < 0) {
@@ -532,46 +523,25 @@ public class Sketch1 extends PApplet {
 
 
     // When player touches spikes, set booleans to prevent them from moving and give them death scene.
-    if (jumping_X1 > 40 && jumping_X1 < 110) {
-      if (jumping_Y1 > 550) {
-        // Prevent further movement and play death cutscene
-        leftPressed = false;
-        rightPressed = false;
-        hasJumped = true;       
-        deathScene();
-      }
+    if (jumping_X1 > 40 && jumping_X1 < 110 && jumping_Y1 > 550) {
+      jumping_X1 = imgDadSmall_X1;
+      jumping_Y1 = imgDadSmall_Y1;
     }
-    if (jumping_X1 > 360 && jumping_X1 < 430) {
-      if (jumping_Y1 > 550) {
-        leftPressed = false;
-        rightPressed = false;
-        hasJumped = true;       
-        deathScene();
-      }
+    if (jumping_X1 > 360 && jumping_X1 < 430 && jumping_Y1 > 550 && !isDead) {
+      jumping_X1 = imgDadSmall_X1;
+      jumping_Y1 = imgDadSmall_Y1;
     }
-    if (jumping_X1 > 630 && jumping_X1 < 700) {
-      if (jumping_Y1 > 550) {
-        leftPressed = false;
-        rightPressed = false;
-        hasJumped = true;       
-        deathScene();
-      }
+    if (jumping_X1 > 630 && jumping_X1 < 700 && jumping_Y1 > 550 && !isDead) {
+      jumping_X1 = imgDadSmall_X1;
+      jumping_Y1 = imgDadSmall_Y1;
     }
-    if (jumping_X1 > 740 && jumping_X1 < 810) {
-      if (jumping_Y1 > 550) {
-        leftPressed = false;
-        rightPressed = false;
-        hasJumped = true;       
-        deathScene();
-      }
+    if (jumping_X1 > 740 && jumping_X1 < 810 && jumping_Y1 > 550 && !isDead) {
+      jumping_X1 = imgDadSmall_X1;
+      jumping_Y1 = imgDadSmall_Y1;
     }
-    if (jumping_X1 > 1010 && jumping_X1 < 1080) {
-      if (jumping_Y1 > 550) {
-        leftPressed = false;
-        rightPressed = false;
-        hasJumped = true;       
-        deathScene();
-      }
+    if (jumping_X1 > 1010 && jumping_X1 < 1080 && jumping_Y1 > 550 && !isDead) {
+      jumping_X1 = imgDadSmall_X1;
+      jumping_Y1 = imgDadSmall_Y1;
     }
 
     drawBirds();
@@ -583,22 +553,11 @@ public class Sketch1 extends PApplet {
 
     // When Dead
     if (isDead) {
-      
+
         // Redraw everything
         level2Background();
-        
-        // Prevent jumping
-        hasJumped = true;
-        // Use opposite direction movement to cancel out movement, stopping the player
-        if (leftPressed == true) {
-          jumping_X1 += 2;
-        }
-        if (rightPressed == true) {
-          jumping_X1 -= 2;
-        }
 
-        // Show dead picture
-        
+        // Show dead picture     
         imgDadDead.resize(50,50);
         image(imgDadDead, (float)jumping_X1, (float)jumping_Y1);
 
@@ -616,7 +575,27 @@ public class Sketch1 extends PApplet {
         // Emoji Pic
         image(imgEmoji, 600, 400);
 
+        if (enterPressed) {
+          jumping_X1 = imgDadSmall_X1;
+          jumping_Y1 = imgDadSmall_Y1;
+
+          // Reset other necessary variables and flags
+          isDead = false;
+          hasJumped = false;
+
+          // Redraw the initial state of the level
+          level2Background();
+          
+          // Redraw the character
+          image(imgDadSmall, (float) jumping_X1, (float) jumping_Y1);
+
+          // Allow movement during the reset
+          movementMethod();
+        }
       }
+      
+
+
       
       // When player reaches door at the end, give them instructions to continue to the next level
        if(jumping_X1 > 1100) {
@@ -626,7 +605,7 @@ public class Sketch1 extends PApplet {
         fill(0);
         textSize(40);
         textAlign(CENTER, CENTER);
-        text("PRESS ENTER TO ENTER", width / 2, 100);
+        text("ENTER DOOR", width / 2, 100);
 
       }
 
@@ -651,6 +630,8 @@ public class Sketch1 extends PApplet {
     image(imgBuilding2, building_locations[2], 250);
   }
 
+  
+
   public void drawBirds() {
   // Birds will move when player gets to x position = 900
   if (jumping_X1 > 900) {
@@ -670,21 +651,6 @@ public class Sketch1 extends PApplet {
     }
   }
 }
-
-  public void deathScene() {
-    imgMutahar.resize(1200,700);
-    image(imgMutahar, 0, 0);
-    image(imgDadDead, 930, 380);
-    image(imgDadDead, 930, 0);
-    image(imgDadDead, 0, 380);
-    image(imgDadDead, 0, 0);
-    fill(255);
-    textSize(50);
-    textAlign(CENTER, CENTER);
-    text("YOU DIED... WOMP WOMP", width / 2, 250);
-    text("WE RECCOMMEND NOT DYING", width / 2, 300);
-    text("NEXT TIME, DON'T DIE", width / 2, 350);
-  }
 
   public void movementMethod() {
     // Make Character move left and right 
@@ -743,7 +709,8 @@ public class Sketch1 extends PApplet {
     textAlign(CENTER, CENTER);
     text("HINT: CLICK & HOLD MOUSE", width / 2, 50);
     text("OVER THE SIGN WHILE NEAR SIGN", width / 2, 100);
-    text("YOU MAY WANT TO JUMP IN A COUPLE OF SECS", width /2, 150);
+    text("DEFEAT JOE HAM USING THE DEVICE", width / 2, 150);
+    text("REACH THE DEVICE AND PUT MOUSE CURSOR OVER IT", width/ 2, 200);
 
     // Detect is mouse is hovering over sign
     if (mouseX > signX && mouseX < signX + signWidth &&
@@ -763,7 +730,7 @@ public class Sketch1 extends PApplet {
     if (rightPressed || leftPressed || jumpPressed == true) {
       for (int i = 0; i < eyeballCount; i++) {
         imgEyeballs.resize(70,70);
-        image(imgEyeballs, eyeballX[i], eyeballY[i]);
+        image(imgEyeballs, eyeballX[i], eyeballY);
       }
     }
 
@@ -776,21 +743,20 @@ public class Sketch1 extends PApplet {
         image(imgShotgun, 150, 610);
 
         joeHamAppeared = true;
+        
     }
 
     if (joeHamAppeared) {
-      if (jumping_X2 < 300) {
-        jumping_X2 = 300;
-      }
+    
 
       for (int i = 0; i < bullet_count; i++) {
-        // Check if snowflake is visible and draw
+        // Draw bullet
         
           fill(255, 255, 255);
           ellipse(bulletX[i], bulletY, 15, 15);
         
           
-        // Update snowflake position
+        // Update bullet position
         bulletX[i] += bulletSpeed[i];
 
         if (bulletX[i] > width) {
@@ -798,19 +764,26 @@ public class Sketch1 extends PApplet {
         }
 
         float distanceShot = dist(bulletX[i], bulletY, jumping_X2, jumping_Y2);
-        if (distanceShot < playerRadius - 9) { // 7.5 is half of the bullet diameter
-          // Collision detected, reduce lives or perform other actions
-          // Example: Decrease lives and respawn bullet
-          // Adjust this based on your game logic
+        if (distanceShot < playerRadius - 9) { 
+          // Collision detected, reduce lives
           numLives--;
           bulletX[i] = 260;
         }
         if (numLives <= 0) {
-          deathScene2();
+          hasJumped2 = false;
+          numLives = 5;
+          jumping_X2 = imgDadMedium_X2;
+          jumping_Y2 = imgDadMedium_Y2;
+          movementMethod2();
+          nukeY = -500;
         }
       }
       if (jumping_X2 > 1050) {
-        nukeY += 15;
+        if (mouseX > 1100 && mouseY > 600) {
+          if (numLives > 0) {
+            nukeY +=25;
+          } 
+        } 
       }
     }
 
@@ -821,6 +794,7 @@ public class Sketch1 extends PApplet {
   
   public void movementMethod2() {
     // Make Character move left and right 
+
     if (leftPressed == true) {
       jumping_X2 -= 2;
     }
@@ -853,25 +827,10 @@ public class Sketch1 extends PApplet {
     }
   }
 
-  public void deathScene2() {
-    imgJoeHamScary.resize(1200,700);
-    image(imgJoeHamScary, 0, 0);
-    image(imgDadDead, 930, 380);
-    image(imgDadDead, 930, 0);
-    image(imgDadDead, 0, 380);
-    image(imgDadDead, 0, 0);
-    fill(255);
-    textSize(40);
-    textAlign(CENTER, CENTER);
-    text("LOL", width / 2, 250);
-    text("YOU GOT SHOT TO DEATH", width / 2, 300);
-    text("BY JOE HAM", width / 2, 350);
-    text("SUGGESTION: DONT GET SHOT", width / 2, 400);
-    text("RESTART THE GAME", width / 2, 450);
-
-  }
-
   public void cutscene4() {
+    // After beating the game, make player (almost) invincible so that level 4 does not reset.
+    numLives = 690000;
+
     imgNukeBackground.resize(1200,700);
     image(imgNukeBackground, 0, 0);
 
