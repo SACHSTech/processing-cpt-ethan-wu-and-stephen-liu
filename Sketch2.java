@@ -1,6 +1,5 @@
 import processing.core.PApplet;
 import processing.core.PImage;
-import java.util.Random;
 
 public class Sketch2 extends PApplet {
 
@@ -231,9 +230,9 @@ public class Sketch2 extends PApplet {
 
   // Call each level
     //level1();
-    //level3();
+    level3();
     //cutScene4();
-    level5();
+    //level5();
   }
 
   public void level1(){
@@ -633,6 +632,8 @@ else if (state == 2) {
             lamboHit = false;
             dadX1 = 30;
             dadY1 = 300;
+            copX = 840;
+            copY = 950;
           }
         }
     }
@@ -683,6 +684,8 @@ else if (state == 2) {
             tankHit = false;
             dadX1 = 30;
             dadY1 = 300;
+            copX = 840;
+            copY = 950;
           }
         }
         }
@@ -780,7 +783,7 @@ else if (state == 2) {
           text("congrats for getting across ig", 360, 210);
           text("fyi that wasnt how u were supposed to beat the level LOLLLLL", 160, 280);
           text("i hope it didnt take u too long to beat it LOL", 300, 350);
-          text("Press Alt to move on LOL...", 400, 580);
+          text("Press Enter to move on LOL...", 400, 580);
 
           // ADD CODE TO RUN LEVEL 6 METHOD
         }
