@@ -469,9 +469,9 @@ public class Sketch1 extends PApplet {
     // Give level instructions
     textSize(40);
     textAlign(CENTER, CENTER);
-    text("Press backspace To jump and l/r to move :)", 400, 100);
-    text("Jump on trampolines to get over building", 400, 150);
-    text("Dont touch spike", 400, 200);
+    text("Press backspace To jump and l/r to move :)", width / 2, 100);
+    text("Jump on trampolines to get over building", width / 2, 150);
+    text("Dont touch spike", width / 2, 200);
 
     // Border restriction to prevent player from moving out of the level
     if (jumping_X1 < 0) {
@@ -646,8 +646,12 @@ public class Sketch1 extends PApplet {
     if (leftPressed == true) {
       jumping_X1 -= 2;
     }
-    if (rightPressed == true) {
+    else if (rightPressed == true) {
       jumping_X1 += 2;
+    }
+    else {
+      leftPressed = false;
+      rightPressed = false;
     }
     
     // Allow jumping when pressing BACKSPACE key.
@@ -690,7 +694,7 @@ public class Sketch1 extends PApplet {
       shiftPressed = false;
       jumping_X2 -= 4;
     }
-    if (jumping_Y2 < 430) {
+    else if (jumping_Y2 < 430) {
       jumping_Y2 = imgDadMedium_Y2;
     }
 
@@ -793,8 +797,12 @@ public class Sketch1 extends PApplet {
     if (leftPressed == true) {
       jumping_X2 -= 2;
     }
-    if (rightPressed == true) {
+    else if (rightPressed == true) {
       jumping_X2 += 2;
+    }
+    else {
+      leftPressed = false;
+      rightPressed = false;
     }
   
     if (!hasJumped2 && jumpPressed) {
