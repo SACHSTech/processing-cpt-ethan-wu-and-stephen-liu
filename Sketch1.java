@@ -280,7 +280,7 @@ public class Sketch1 extends PApplet {
       shiftPressed = true;
     }
     
-    // Next level boolean
+    // Reset level boolean
     if (keyCode == ENTER) {
       enterPressed = true;
     } 
@@ -310,7 +310,7 @@ public class Sketch1 extends PApplet {
       shiftPressed = false;
     }
 
-    // Next level boolean
+    // Reset level boolean
     if (keyCode == ENTER) {
       enterPressed = false;
     }

@@ -423,7 +423,7 @@ public class Sketch extends PApplet {
         level1();
       }
 
-    if (dadX >= 1070) {
+    if (dadX >= 1040) {
         level3();
     }  
   }
@@ -451,10 +451,41 @@ public class Sketch extends PApplet {
       shiftPressed = true;
     }
     
-    // Next level boolean
+    // Reset level 2 boolean
     if (keyCode == ENTER) {
       enterPressed = true;
     } 
+
+    // 
+
+    // Detect which key is being pressed and where to direct the player (Soccer scene included)
+    if (state == 0) {
+        if (key == '1') {
+          state = 1;
+        } else if (key == '2') {
+          state = 2;
+        }
+      } else if (state == 1) {
+        if (key == '1') {
+          state = 3;
+        } else if (key == '2') {
+          state = 4;
+        }
+      } else if(state == 2){
+        if(key == '1'){
+          state = 5;
+        }else if(key == '2'){
+          state = 6;
+        }
+      } if(state == 5){
+        if(keyCode == ALT){
+          state = 7;
+        }
+      } if(state == 7){
+        if(keyCode == 32){
+          level5();
+        }
+      } 
   }
 
 
@@ -481,7 +512,7 @@ public class Sketch extends PApplet {
       shiftPressed = false;
     }
 
-    // Next level boolean
+    // Reset level boolean
     if (keyCode == ENTER) {
       enterPressed = false;
     }
@@ -1106,39 +1137,6 @@ public class Sketch extends PApplet {
       }
         }
       }
-      
-      // Detect which key is being pressed and where to direct the player (Soccer scene included)
-        public void keyPressed() {
-          if (state == 0) {
-            if (key == '1') {
-              state = 1;
-            } else if (key == '2') {
-              state = 2;
-            }
-          } else if (state == 1) {
-            if (key == '1') {
-              state = 3;
-            } else if (key == '2') {
-              state = 4;
-            }
-          } else if(state == 2){
-            if(key == '1'){
-              state = 5;
-            }else if(key == '2'){
-              state = 6;
-            }
-          } if(state == 5){
-            if(keyCode == ALT){
-              state = 7;
-            }
-          } if(state == 7){
-            if(keyCode == ALT){
-              // Insert level 4 method
-            }
-          } 
-        }
-      
-      
         
         
         public void cutScene4() {
@@ -1300,7 +1298,320 @@ public class Sketch extends PApplet {
             }
 
 
+            public void level5(){
 
+                // Load dad and background and sqaure
+                image(imgLevel5, 0, 0);
+                image(imgDadMedium, dadX3, dadY3);
+        
+                // Load fake cheat codes 
+                imgcreditCard.resize(200, 120);
+                image(imgcreditCard, 1, 10);
+                textSize(20);
+                fill(0);
+                text("stuck? hover ur mouse over", 0, 170);
+                text("the card to buy hacks!", 0, 210);
+        
+                // Draw fake Karen ending
+                fill(250, 25, 17);
+                rect(50, 500, 140, 140);
+                textSize(25);
+                fill(0);
+                text("Speak to Manager", 25, 480);
+        
+                // Make dad move based on WASD presses
+                if(keyPressed){
+        
+                  if(key == 'w'){
+                    dadY3 -=2 ;
+                  }
+                  else if(key == 's'){
+                    dadY3 += 2;
+                  }
+                  else if(key == 'a'){
+                    dadX3 -= 2;
+                  }
+                  else if(key == 'd'){
+                    dadX3 += 2;
+                  }
+                }
+                image(imgDadMedium, dadX3, dadY3);
+        
+                // Add collision detection to the credit card and screen if player tries to buy hacks
+                if(mouseX < 200 && mouseX > 10 && mouseY < 150 && mouseY > 10){
+                  Cheater();
+                }
+                
+                // Add troll if player presses the mouse
+                if(mousePressed){
+                  imgstickBug.resize(1200, 700);
+                  image(imgstickBug, 0 ,0);
+                  textSize(8);
+                  fill(255, 255, 255);
+                  text("dont press 1 >:)", 10, 10);
+                }
+        
+                // Add a hint if player presses a key
+                if(keyPressed){
+                  if(key == '1'){
+                    imgLevel5.resize(1200, 700);
+                    image(imgLevel5, 0, 0);
+                    imgX.resize(30, 30);
+                    image(imgX, 1150, 10);
+                  }
+                }
+        
+                // Add easy ending to level
+                if(mouseY < 45 && mouseX < 1180 && mouseX > 1145){
+                  ezEnding();
+                }
+        
+                // Add Karen ending
+                if(dadY3 > 480 && dadX3 > 0 && dadX3 < 80){
+                  Karen();
+                  dadX3 = 60;
+                  dadY3 = 485;
+                }
+                
+        
+                // Add cars moving
+                Chrion();
+                Porsche();
+                Hummer();
+                Creeper();
+        
+                // Add ending if player somehow crosses the highway
+                if(dadX3 > 970 && dadY3 < 330 && dadY3 > 200){
+                  background(255, 255, 255);
+                  textSize(30);
+                  fill(0);
+                  text("what? how did u cross the road???", 350, 70);
+                  text("yk that road was made to be impossible to cross right??", 210, 140);
+                  text("congrats for getting across ig", 360, 210);
+                  text("fyi that wasnt how u were supposed to beat the level LOLLLLL", 160, 280);
+                  text("i hope it didnt take u too long to beat it LOL", 300, 350);
+                  text("Press Enter to move on LOL...", 400, 580);
+        
+                  // ADD CODE TO RUN LEVEL 6 METHOD
+                }
+              }
+            
+              // If player tries to cheat, display troll screen
+              public void Cheater(){
+                imgLinus.resize(1200, 700);
+                image(imgLinus, 0, 0);
+                textSize(30);
+                fill(250, 17, 25);
+                text("LOL u rlly thought u could cheat LOL", 350, 70);
+                text("imagine tryin to buy hacks lol", 400, 140);
+                text("im just gonna hope u moved ur mouse here by accident...", 200, 210);
+                text("move ur mouse off this to continue...", 350, 600);
+              }
+        
+              public void Karen(){
+                imgKaren.resize(1200, 700);
+                image(imgKaren, 0, 0);
+                textSize(30);
+                fill(0);
+                text("BAD ENDING: YOU WENT VIRAL FOR BEING A KAREN... WOMP WOMP", 120, 70);
+                text("LOL no way bro just tried to speak to the manager", 270, 140);
+                text("bruh imagine speaking to the manager cuz u cant jaywalk on a highway LOL", 50, 210);
+                text("next time dont be such a karen LOL", 330, 280);
+                fill(255, 255, 255);
+                text("You found the Karen ending!", 350, 600);
+              }
+        
+              public void Chrion(){
+                for (int i = 0; i < chrionCount; i++) {
+          
+                  // Update Chiron location
+                  chrionY[i] += chrionSpeed;
+            
+                  // If Chiron goes off screen, teleport it back to the start
+                  if (chrionY[i] > 600) {
+                  chrionX[i] = 260;
+                  chrionY[i] = -30;
+                  }
+            
+                  // Draw Chiron
+                  imgChiron.resize(210, 130);
+                  image(imgChiron, chrionX[i], chrionY[i]);
+          
+                  // Detect if player gets hit by Chiron
+                  if(dist(dadX3, dadY3, chrionX[i], chrionY[i]) < 120 && !chrionCrash){
+                    chrionHit = true;
+                  }
+          
+                  // If player gets hit, display death screen
+                  if(chrionHit){
+                    background(255, 255, 255);
+                    chrionY[i] = -30;
+                    textSize(30);
+                    text("YOU DIED... WOMP WOMP", 400, 30);
+                    text("bruh imagine tryin to cross a 4 lane road smh", 300, 100);
+                    text("we recommend not jaywalking on a highway", 300, 170);
+                    text("Press Alt to restart...", 450, 310);
+                    imgDadDead.resize(250, 250);
+                    image(imgDadDead, 450, 350);
+                  }
+          
+                  // Reset player and chrionHit boolean by pressing Alt
+                  if(keyPressed){
+                    if(keyCode == ALT){
+                      chrionHit = false;
+                      dadX3 = 30;
+                      dadY3 = 290;
+                    }
+                  }
+              }
+              }
+        
+              public void Porsche(){
+                for (int i = 0; i < porscheCount; i++) {
+          
+                  // Update Porsche location
+                  porscheY[i] += porscheSpeed;
+            
+                  // If Porsche goes off screen, teleport it back to the start
+                  if (porscheY[i] > 600) {
+                  porscheX[i] = 430;
+                  porscheY[i] = -30;
+                  }
+            
+                  // Draw Porsche
+                  imgPorsche.resize(210, 130);
+                  image(imgPorsche, porscheX[i], porscheY[i]);
+          
+                  // Detect if player gets hit by Porsche
+                  if(dist(dadX3, dadY3, porscheX[i], porscheY[i]) < 120 && !porscheCrash){
+                    porscheHit = true;
+                  }
+          
+                  // If player gets hit, display death screen
+                  if(porscheHit){
+                    background(255, 255, 255);
+                    porscheY[i] = -30;
+                    textSize(30);
+                    text("YOU DIED... WOMP WOMP", 400, 30);
+                    text("bruh imagine tryin to cross a 4 lane road smh", 300, 100);
+                    text("we recommend not jaywalking on a highway", 300, 170);
+                    text("Press Alt to restart...", 450, 310);
+                    imgDadDead.resize(250, 250);
+                    image(imgDadDead, 450, 350);
+                  }
+          
+                  // Reset player and porschenHit boolean by pressing Alt
+                  if(keyPressed){
+                    if(keyCode == ALT){
+                      porscheHit = false;
+                      dadX3 = 30;
+                      dadY3 = 290;
+                    }
+                  }
+              }
+              }
+        
+              public void Hummer(){
+                for (int i = 0; i < hummerCount; i++) {
+          
+                  // Update Hummer location
+                  hummerY[i] -= hummerSpeed;
+            
+                  // If Hummer goes off screen, teleport it back to the start
+                  if (hummerY[i] < 0) {
+                  hummerX[i] = 610;
+                  hummerY[i] = 700;
+                  }
+            
+                  // Draw Hummer
+                  imgHummer.resize(210, 130);
+                  image(imgHummer, hummerX[i], hummerY[i]);
+          
+                  // Detect if player gets hit by Hummer
+                  if(dist(dadX3, dadY3, hummerX[i], hummerY[i]) < 120 && !hummerCrash){
+                    hummerHit = true;
+                  }
+          
+                  // If player gets hit, display death screen
+                  if(hummerHit){
+                    background(255, 255, 255);
+                    hummerY[i] = 700;
+                    textSize(30);
+                    text("YOU DIED... WOMP WOMP", 400, 30);
+                    text("bruh imagine tryin to cross a 4 lane road smh", 300, 100);
+                    text("we recommend not jaywalking on a highway", 300, 170);
+                    text("Press Alt to restart...", 450, 310);
+                    imgDadDead.resize(250, 250);
+                    image(imgDadDead, 450, 350);
+                  }
+          
+                  // Reset player and hummerHit boolean by pressing Alt
+                  if(keyPressed){
+                    if(keyCode == ALT){
+                      hummerHit = false;
+                      dadX3 = 30;
+                      dadY3 = 290;
+                    }
+                  }
+              }
+              }
+        
+              public void Creeper(){
+                for (int i = 0; i < creeperCount; i++) {
+          
+                  // Update Crepper location
+                  creeperY[i] -= creeperSpeed;
+            
+                  // If Creeper goes off screen, teleport it back to the start
+                  if (creeperY[i] < 0) {
+                  creeperX[i] = 850;
+                  creeperY[i] = 700;
+                  }
+            
+                  // Draw Creeper
+                  imgCreeper.resize(100, 180);
+                  image(imgCreeper, creeperX[i], creeperY[i]);
+          
+                  // Detect if player gets hit by Creeper
+                  if(dist(dadX3, dadY3, creeperX[i], creeperY[i]) < 120 && !creeperCrash){
+                    creeperHit = true;
+                  }
+          
+                  // If player gets hit, display death screen
+                  if(creeperHit){
+                    background(255, 255, 255);
+                    creeperY[i] = 700;
+                    textSize(30);
+                    text("YOU DIED... WOMP WOMP", 400, 30);
+                    text("uhh well that was interesting", 400, 100);
+                    text("how did u even get hit by a creeper???", 350, 170);
+                    text("Press Alt to restart...", 450, 310);
+                    imgDadDead.resize(250, 250);
+                    image(imgDadDead, 450, 350);
+                  }
+          
+                  // Reset player and creeperHit boolean by pressing Alt
+                  if(keyPressed){
+                    if(keyCode == ALT){
+                      creeperHit = false;
+                      dadX3 = 30;
+                      dadY3 = 290;
+                    }
+                  }
+              }
+              }
+              
+              public void ezEnding(){
+                imgPog.resize(1200, 700);
+                  image(imgPog, 0, 0);
+                  textSize(30);
+                  fill(255);
+                  text("YOOO u found the ez ending!!!", 400, 70);
+                  text("congrats for finding this!", 430, 140);
+                  text("Press Alt to continue!!", 450, 210);
+        
+                  // ADD CODE TO RUN LEVEL 6 METHOD
+              }
 
 
 
