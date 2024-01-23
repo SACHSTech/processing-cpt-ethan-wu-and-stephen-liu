@@ -907,10 +907,6 @@ public class Sketch extends PApplet {
     // Draw end square with level number
     fill(255, 34, 5);
     rect(1085, 260, 115, 140);
-    
-    fill(255, 255, 255);
-    textSize(35);
-    text("Level 1", 1080, 440);
   
     // Add level instructions
     textSize(25);
