@@ -9,6 +9,7 @@ public class Sketch extends PApplet {
   * @author: E. Wu, S. Liu
   */
 
+  // Player images used throughout game
   PImage imgDad;
   PImage imgDadMad;
   PImage imgDadDead;
@@ -60,7 +61,7 @@ public class Sketch extends PApplet {
     "YOU DIED OF STROKE"
   };
 
-  // Level 2 variables
+  // Level 1 variables
   double imgDadSmall_X1 = 0;
   double imgDadSmall_Y1 = 560;
 
@@ -72,16 +73,16 @@ public class Sketch extends PApplet {
   PImage imgBird;
   PImage imgEmoji;
 
-  // Reset level 2 booleans
+  // Reset level 1 booleans
   boolean isDead = false;
   boolean enterPressed = false;
 
-  // Array locations of trampoline, spikes, buildings in level 2
+  // Array locations of trampoline, spikes, buildings in level 1
   int tramp_locations[] = {130, 450, 940};
   int spike_locations[] = {80, 400, 670, 780, 1050};
   int building_locations[] = {200, 520, 1100};
 
-  // Level 2 Jumping 
+  // Level 1 Jumping 
   double jumping_X1 = imgDadSmall_X1;
   double jumping_Y1 = imgDadSmall_Y1;
   double xSpeed1 = 2; 
@@ -89,63 +90,13 @@ public class Sketch extends PApplet {
   double gravity1 = 0.5;
   boolean hasJumped = false;
 
-  // Part of Level 2, but it's in the drawBirds() method
+  // Part of Level 1, but it's in the drawBirds() method
   int birdCount = 50;
   float[] birdX = new float [birdCount];
   float[] birdY = new float [birdCount];
   float birdSpeed = 20;
 
-  // Level 4 Variables
-  PImage imgLevel4Background;
-  PImage imgJoeHamHappy;
-  PImage imgSignRead;
-  PImage imgEyeballs;
-  PImage imgShotgun;
-  PImage imgWalkieTalkie;
-  PImage imgNuke;
-
-  // Level 4 Eyeballs feature variables
-  int eyeballCount = 20;
-  float[] eyeballX = new float [eyeballCount];
-  int eyeballY = 500;
-
-  // Level 4 timer variables
-  int startTime;
-  int duration = 10000;
-
-  // Level 4 jumping variables
-  int imgDadMedium_X2 = 0;
-  int imgDadMedium_Y2 = 600;
-  int jumping_X2 = imgDadMedium_X2;
-  int jumping_Y2 = imgDadMedium_Y2;
-  double xSpeed2 = 2; 
-  double ySpeed2 = 0;
-  double gravity2 = 0.5;
-  boolean hasJumped2 = false;
-  
-  // Level 4 sign variables to detect if mouse is hovering over sign
-  int signX = 200;
-  int signY = 580;
-  int signWidth = 100;
-  int signHeight = 50;
-  boolean mouseOverSign = false;
-
-  // Level 4 gun shooting variables
-  int bullet_count = 20;
-  float[] bulletX = new float[bullet_count];
-  int bulletY = 630;
-  float[] bulletSpeed = new float[bullet_count];
-  int numLives = 15;
-  float playerRadius = 40;
-
-  // Level 4 nuke variables
-  int nukeX = 100;
-  int nukeY = -500;
-
-  // Cutscene 4 variables
-  PImage imgNukeBackground;
-
-  // Level 1 variables
+  // Level 2 variables
   PImage imgMike;
   float dadX = 50;
   float dadY = 270;
@@ -164,6 +115,9 @@ public class Sketch extends PApplet {
   float copX = 840;
   float copY = 950;
 
+  // Declare state for police interoggation
+  int state = 0;
+
   // Level 3 cutscene variables
   float dadX2 = 300;
   float dadY2 = 650;
@@ -174,7 +128,7 @@ public class Sketch extends PApplet {
   PImage imgRonaldo;
   PImage imgSuiii;
 
-  // Images used in level 5
+  // Images used in level 4
   PImage imgLevel5;
   PImage imgcreditCard;
   PImage imgLinus;
@@ -206,7 +160,7 @@ public class Sketch extends PApplet {
   boolean tankCrash = false;
   boolean tankHit = false;
 
-  // Declare Chrion variables for level 5
+  // Declare Chrion variables for level 4
   int chrionCount = 1;
   float[] chrionX = new float [chrionCount];
   float[] chrionY = new float [chrionCount];
@@ -214,7 +168,7 @@ public class Sketch extends PApplet {
   boolean chrionCrash = false;
   boolean chrionHit = false;
 
-  // Declare Porsche variables for level 5
+  // Declare Porsche variables for level 4
   int porscheCount = 1;
   float[] porscheX = new float [porscheCount];
   float[] porscheY = new float [porscheCount];
@@ -222,7 +176,7 @@ public class Sketch extends PApplet {
   boolean porscheCrash = false;
   boolean porscheHit = false;
 
-  // Declare Hummer variables for level 5
+  // Declare Hummer variables for level 4
   int hummerCount = 1;
   float[] hummerX = new float [hummerCount];
   float[] hummerY = new float [hummerCount];
@@ -230,7 +184,7 @@ public class Sketch extends PApplet {
   boolean hummerCrash = false;
   boolean hummerHit = false;
 
-  // Declare creeper variables for level 5
+  // Declare creeper variables for level 4
   int creeperCount = 1;
   float[] creeperX = new float [creeperCount];
   float[] creeperY = new float [creeperCount];
@@ -238,16 +192,63 @@ public class Sketch extends PApplet {
   boolean creeperCrash = false;
   boolean creeperHit = false;
 
-  // Timer variables
+  // Level 5 Variables
+  PImage imgLevel4Background;
+  PImage imgJoeHamHappy;
+  PImage imgSignRead;
+  PImage imgEyeballs;
+  PImage imgShotgun;
+  PImage imgWalkieTalkie;
+  PImage imgNuke;
+
+  // Level 5 Eyeballs feature variables
+  int eyeballCount = 20;
+  float[] eyeballX = new float [eyeballCount];
+  int eyeballY = 500;
+
+  // Level 5 timer variables
+  int startTime;
+  int duration = 10000;
+
+  // Level 5 jumping variables
+  int imgDadMedium_X2 = 0;
+  int imgDadMedium_Y2 = 600;
+  int jumping_X2 = imgDadMedium_X2;
+  int jumping_Y2 = imgDadMedium_Y2;
+  double xSpeed2 = 2; 
+  double ySpeed2 = 0;
+  double gravity2 = 0.5;
+  boolean hasJumped2 = false;
+  
+  // Level 5 sign variables to detect if mouse is hovering over sign
+  int signX = 200;
+  int signY = 580;
+  int signWidth = 100;
+  int signHeight = 50;
+  boolean mouseOverSign = false;
+
+  // Level 5 gun shooting variables
+  int bullet_count = 20;
+  float[] bulletX = new float[bullet_count];
+  int bulletY = 630;
+  float[] bulletSpeed = new float[bullet_count];
+  int numLives = 15;
+  float playerRadius = 40;
+
+  // Level 5 nuke variables
+  int nukeX = 100;
+  int nukeY = -500;
+
+  // Cutscene 5 variables
+  PImage imgNukeBackground;
+
+  // Stephen's Timer variables
   int timer1;
   int dura1 = 100000;
   int timer3;
   int dura3 = 13000;
   int timer4;
   int dura4 = 100000;
-
-  // Declare state for police interoggation
-  int state = 0;
 
   public void settings() {
     size(1200, 700);
@@ -413,30 +414,34 @@ public class Sketch extends PApplet {
       cutscene3();
     }
 
-    //// Collision Detection: If the player chooses the Right route on the pathway in cutscene 2, call the level2 method.
+    //// Collision Detection: If the player chooses the Right route on the pathway in cutscene 2, call the level1 method.
     if (imgDadMedium_X1 >= 601 && imgDadMedium_Y1 <= 0) {
         level1();
       }
     
-    // When the player reaches the door in level 2, call level 4 method.
+    // When the player reaches the door in level 1, call level 2 method.
     if (jumping_X1 > 1100 && !isDead) {
         level2();
       }
 
-    if (dadX >= 1040) {
+    // When player finishes crossing level 2, start level 3
+      if (dadX >= 1040) {
         level3();
     }  
 
+    // If player successfully chooses correct decision in level 3, run level 4.
     if (state == 8) {
-      level5();
-    }
-
-    if (state == 9) {
       level4();
     }
 
+    // If player successfully crosses level 4 or finds the secret way to beat the level, run level 5
+    if (state == 9) {
+      level5();
+    }
+
+    // If player successfully calls airstrike in level 5, call final scene.
     if (nukeY > 400) {
-      cutscene4();
+      cutscene5();
     }
   }
 
@@ -1318,7 +1323,7 @@ public class Sketch extends PApplet {
             }
 
 
-            public void level5(){
+            public void level4(){
 
                 // Load dad and background and sqaure
                 image(imgLevel5, 0, 0);
@@ -1634,7 +1639,7 @@ public class Sketch extends PApplet {
               }
 
     
-              public void level4() {
+              public void level5() {
                 // Player will not be able to move left in this level
                 leftPressed = false;
                 
@@ -1785,7 +1790,7 @@ public class Sketch extends PApplet {
               }
             
             
-              public void cutscene4() {
+              public void cutscene5() {
                 // After beating the game, make player (almost) invincible so that level 4 does not reset.
                 numLives = 690000;
             
