@@ -415,12 +415,12 @@ public class Sketch extends PApplet {
 
     //// Collision Detection: If the player chooses the Right route on the pathway in cutscene 2, call the level2 method.
     if (imgDadMedium_X1 >= 601 && imgDadMedium_Y1 <= 0) {
-        level2();
+        level1();
       }
     
     // When the player reaches the door in level 2, call level 4 method.
     if (jumping_X1 > 1100 && !isDead) {
-        level1();
+        level2();
       }
 
     if (dadX >= 1040) {
@@ -683,7 +683,7 @@ public class Sketch extends PApplet {
     }
   }
 
-  public void level2() {
+  public void level1() {
     // Draw level and Dad character
     level2Background();
     image(imgDadSmall, (float)jumping_X1, (float)jumping_Y1);
@@ -890,7 +890,7 @@ public class Sketch extends PApplet {
     }
   }
 
-  public void level1(){
+  public void level2(){
 
     background(3, 248, 252);
 
