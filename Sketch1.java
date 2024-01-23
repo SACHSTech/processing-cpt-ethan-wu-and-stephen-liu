@@ -201,8 +201,10 @@ public class Sketch1 extends PApplet {
     // Level 2 Bird arrays position setup. Initialize their positions with array.
     for (int i = 0; i < birdCount; i++) {
       birdX[i] = random(width);
-      // random Y coordinate between 0-199
-      birdY[i] = random(200);
+       
+      for (int j = 0; j < birdCount; j++) {
+        birdY[i] = random(200);
+      }
     }
 
     // Level 4 timer setup
@@ -216,7 +218,10 @@ public class Sketch1 extends PApplet {
     // Level 4 Bullet setup. Initialize their positions with array.
     for (int i = 0; i < bullet_count; i++) {
       bulletX[i] = random(width);
-      bulletSpeed[i] = random(5, 8);
+      
+      for (int j = 0; j < bullet_count; j++) {
+        bulletSpeed[i] = random(5, 8);
+      }  
     }  
   }
 
