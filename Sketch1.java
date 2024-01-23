@@ -3,6 +3,12 @@ import processing.core.PImage;
  
 public class Sketch1 extends PApplet {
   
+  /**
+  * Description
+  * A program that contains several platformer-style levels, each having different objectives listed in the levels.
+  * @author: E. Wu
+  */
+
   // Variables for the player's character, used throughout game
   PImage imgDad;
   PImage imgDadMad;
