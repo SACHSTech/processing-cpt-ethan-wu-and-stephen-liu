@@ -3,6 +3,12 @@ import processing.core.PImage;
 
 public class Sketch2 extends PApplet {
 
+  /**
+   * Description
+   * A program that contains multiple levels including maze and road levels with each level having different elements.
+   * @author S. Liu
+   */
+
   // Character images
 	PImage imgDad;
   PImage imgDadMad;
@@ -161,14 +167,11 @@ public class Sketch2 extends PApplet {
 
   int timer1;
   int dura1 = 100000;
-  int timer2;
-  int dura2 = 3000;
   int timer3;
   int dura3 = 13000;
   int timer4;
   int dura4 = 100000;
-  int timer5;
-  int dura5 = 4000;
+  
 
   // Declare state for police interoggation
   int state = 0;
@@ -182,10 +185,8 @@ public class Sketch2 extends PApplet {
 
     // Set each timer to millis
     timer1 = millis();
-    timer2 = millis();
     timer3 = millis();
     timer4 = millis();
-    timer5 = millis();
 
     // Lambo array position setup
     for (int i = 0; i < lamboCount; i++) {
