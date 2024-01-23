@@ -352,7 +352,7 @@ public class Sketch extends PApplet {
       bulletX[i] = random(width);
       
       for (int j = 0; j < bullet_count; j++) {
-        bulletSpeed[i] = random(5, 8);
+        bulletSpeed[i] = random(7, 10);
       }  
     }  
 
@@ -413,7 +413,7 @@ public class Sketch extends PApplet {
       cutscene3();
     }
 
-    // Collision Detection: If the player chooses the Right route on the pathway in cutscene 2, call the level2 method.
+    //// Collision Detection: If the player chooses the Right route on the pathway in cutscene 2, call the level2 method.
     if (imgDadMedium_X1 >= 601 && imgDadMedium_Y1 <= 0) {
         level2();
       }
@@ -426,6 +426,18 @@ public class Sketch extends PApplet {
     if (dadX >= 1040) {
         level3();
     }  
+
+    if (state == 8) {
+      level5();
+    }
+
+    if (state == 9) {
+      level4();
+    }
+
+    if (nukeY > 400) {
+      cutscene4();
+    }
   }
 
   /**
@@ -482,10 +494,18 @@ public class Sketch extends PApplet {
           state = 7;
         }
       } if(state == 7){
-        if(keyCode == 32){
-          level5();
+        if(keyCode == ALT){
+          state = 8;
         }
-      } 
+      } if (state == 8) {
+        if(keyCode == CONTROL) {
+          if (dadX3 > 900 || mouseY < 45 && mouseX < 1180 && mouseX > 1145) {
+            state = 9;
+          }
+          
+        }  
+
+      }
   }
 
 
@@ -1214,7 +1234,7 @@ public class Sketch extends PApplet {
               image(imgLambo, lamboX[i], lamboY[i]);
       
               // Detect if player gets hit by Lambo
-              if(dist(dadX1, dadX2, lamboX[i], lamboY[i]) < 120 && !lamboCrash){
+              if(dist(dadX1, dadX2, lamboX[i], lamboY[i]) < 80 && !lamboCrash){
                 lamboHit = true;
               }
       
@@ -1263,7 +1283,7 @@ public class Sketch extends PApplet {
               image(imgTonk, tankX[i], tankY[i]);
       
               // Detect if player gets hit by tank
-              if(dist(dadX1, dadX2, tankX[i], tankY[i]) < 180 && !tankCrash){
+              if(dist(dadX1, dadX2, tankX[i], tankY[i]) < 120 && !tankCrash){
                 tankHit = true;
               }
                 // Detect if player gets hit by Lambo
@@ -1323,16 +1343,16 @@ public class Sketch extends PApplet {
                 if(keyPressed){
         
                   if(key == 'w'){
-                    dadY3 -=2 ;
+                    dadY3 -=3;
                   }
                   else if(key == 's'){
-                    dadY3 += 2;
+                    dadY3 += 3;
                   }
                   else if(key == 'a'){
-                    dadX3 -= 2;
+                    dadX3 -= 3;
                   }
                   else if(key == 'd'){
-                    dadX3 += 2;
+                    dadX3 += 3;
                   }
                 }
                 image(imgDadMedium, dadX3, dadY3);
@@ -1390,7 +1410,7 @@ public class Sketch extends PApplet {
                   text("congrats for getting across ig", 360, 210);
                   text("fyi that wasnt how u were supposed to beat the level LOLLLLL", 160, 280);
                   text("i hope it didnt take u too long to beat it LOL", 300, 350);
-                  text("Press Enter to move on LOL...", 400, 580);
+                  text("Press Ctrl to move on LOL...", 400, 580);
         
                   // ADD CODE TO RUN LEVEL 6 METHOD
                 }
@@ -1608,12 +1628,181 @@ public class Sketch extends PApplet {
                   fill(255);
                   text("YOOO u found the ez ending!!!", 400, 70);
                   text("congrats for finding this!", 430, 140);
-                  text("Press Alt to continue!!", 450, 210);
+                  text("Press Ctrl to continue!!", 450, 210);
         
                   // ADD CODE TO RUN LEVEL 6 METHOD
               }
 
-
+    
+              public void level4() {
+                // Player will not be able to move left in this level
+                leftPressed = false;
+                
+                // Draw background and Dad
+                image(imgLevel4Background, 0, 0);
+                imgWalkieTalkie.resize(100,100);
+                image(imgWalkieTalkie, 1100, 600);
+                image(imgNuke, nukeX, nukeY);
+            
+                imgDadMedium.resize(100, 80);
+                image(imgDadMedium, (float)jumping_X2, (float)jumping_Y2);
+                
+                // Load in movement
+                movementMethod2();
+            
+                // Border restriction to prevent player from moving out of level
+                if (jumping_X2 > 1100) {
+                  shiftPressed = false;
+                  jumping_X2 -= 4;
+                }
+                if (jumping_Y2 < 430) {
+                  jumping_Y2 = imgDadMedium_Y2;
+                }
+            
+                // Display level instructions
+                fill(0);
+                textSize(40);
+                textAlign(CENTER, CENTER);
+                text("HINT: CLICK & HOLD MOUSE", width / 2, 50);
+                text("OVER THE SIGN WHILE NEAR SIGN", width / 2, 100);
+                text("DEFEAT JOE HAM USING THE DEVICE", width / 2, 150);
+                text("REACH THE DEVICE AND PUT MOUSE CURSOR OVER IT", width/ 2, 200);
+            
+                // Detect is mouse is hovering over sign
+                if (mouseX > signX && mouseX < signX + signWidth &&
+                  mouseY > signY && mouseY < signY + signHeight) {
+                  mouseOverSign = true;
+                } 
+                else {
+                  mouseOverSign = false;
+                }
+            
+                // Display sign contents if mouse is clicking sign
+                if(mouseOverSign == true && mousePressed) {
+                  image(imgSignRead, 150, 100);
+                }
+                
+                // Draw eyeballs when the player is actively moving
+                if (rightPressed || leftPressed || jumpPressed == true) {
+                  for (int i = 0; i < eyeballCount; i++) {
+                    imgEyeballs.resize(70,70);
+                    image(imgEyeballs, eyeballX[i], eyeballY);
+                  }
+                }
+            
+                // Boolean that will trigger the code underneath it
+                boolean joeHamAppeared = false;
+            
+                // Draw Joe Ham Enemy and set joeHamAppeared after 10 second delay using millis() timer.
+                if (!joeHamAppeared && millis() - startTime >= duration) {
+                    imgJoeHamHappy.resize(200,200);
+                    image(imgJoeHamHappy, 0, 500);
+                    imgShotgun.resize(100,60);
+                    image(imgShotgun, 150, 610);
+            
+                    joeHamAppeared = true;
+                    
+                }
+                
+                // When boolean joeHamAppeeared is true, draw his guns and allow bullets to move, and activate collision detection
+                if (joeHamAppeared) {
+            
+                  for (int i = 0; i < bullet_count; i++) {
+                    // Draw bullet
+                    
+                      fill(255, 255, 255);
+                      ellipse(bulletX[i], bulletY, 15, 15);
+                    
+                      
+                    // Update bullet position
+                    bulletX[i] += bulletSpeed[i];
+            
+                    if (bulletX[i] > width) {
+                      bulletX[i] = 260;
+                    }
+            
+                    // Detect if bullets hit player
+                    float distanceShot = dist(bulletX[i], bulletY, jumping_X2, jumping_Y2);
+                    if (distanceShot < playerRadius - 9) { 
+                      // Collision detected, reduce lives
+                      numLives--;
+                      // Reset bullet position after it hits player
+                      bulletX[i] = 260;
+                    }
+            
+                    // When player's lives are gone, reset their positions and reset variables back to original. Call movement method to allow movement again.
+                    if (numLives <= 0) {
+                      hasJumped2 = false;
+                      numLives = 5;
+                      jumping_X2 = imgDadMedium_X2;
+                      jumping_Y2 = imgDadMedium_Y2;
+                      movementMethod2();
+                      nukeY = -500;
+                    }
+                  }
+            
+                  // When player is near the walkie talkie device and their cursor is hovering over it, lower the nuke so that it "falls" onto the enemy.
+                  if (jumping_X2 > 1050) {
+                    if (mouseX > 1100 && mouseY > 600) {
+                      if (numLives > 0) {
+                        nukeY +=15;
+                      } 
+                    } 
+                  }
+                }
+              }
+            
+              
+              public void movementMethod2() {
+                // Make Character move left and right 
+                if (leftPressed == true) {
+                  jumping_X2 -= 3;
+                }
+                if (rightPressed == true) {
+                  jumping_X2 += 3;
+                }
+              
+                if (!hasJumped2 && jumpPressed) {
+                  ySpeed2 = -12;  // Set jump height
+                  hasJumped2 = true;  // Set boolean to true to prevent character from jumping again
+                }
+            
+                // Update character position for jump
+                jumping_Y2 += ySpeed2;
+                ySpeed2 += gravity2;
+            
+                // Stop jumping motion when player hits ground, allow them to jump again
+                if (jumping_Y2 >= imgDadMedium_Y2) {
+                  jumping_Y2 = imgDadMedium_Y2;  
+                  ySpeed2 = 0;  // Stop the vertical motion
+                  hasJumped2 = false;
+                }
+            
+                // Allow sprinting when holding shift while moving
+                if (rightPressed == true && shiftPressed == true) {
+                  jumping_X2 = jumping_X2 + 4;
+                }
+              }
+            
+            
+              public void cutscene4() {
+                // After beating the game, make player (almost) invincible so that level 4 does not reset.
+                numLives = 690000;
+            
+                // Draw background
+                imgNukeBackground.resize(1200,700);
+                image(imgNukeBackground, 0, 0);
+            
+                // Print congratulations message
+                fill(0, 34, 255);
+                textSize(50);
+                textAlign(CENTER, CENTER);
+                text("CONGRATULATIONS", width / 2, 200);
+                text("YOU CALLED AN AIRSTRIKE", width / 2, 280);
+                text("TO DEFEAT THE EVIL JOE HAM", width / 2, 360);
+                text("AND YOU RETURNED HOME", width / 2, 440);
+                text("WITH FRESH PORK FOR DINNER", width / 2, 520);
+              }  
 
 
 

@@ -12,4 +12,4 @@ The controls vary on the level.  Some levels use the regular WASD keys for movem
 
 Additionally, there is mouse input in some of the levels as well.  Certain actions can be done through pressing the mouse, hovering the cursor over a certain area, or both at the same time.
 
-Limitations: Not every level allows up/down movement, jumping, sprinting, or mouse input.  You cannot select which level to play (there is no menu), you must advance through them in the correct order.  The game cannot restart from the beginning of the game, it can only restart at the beginning of the level after dying.
+Limitations: Not every level allows up/down movement, jumping, sprinting, or mouse input.  You cannot select which level to play (there is no menu), you must advance through them in the correct order.  The game cannot restart from the beginning of the game, it can only restart at the beginning of the level after dying.  Getting a "bad ending" screen will require the user to relaunch the game from the start.
