@@ -241,7 +241,7 @@ public class Sketch1 extends PApplet {
     }
 
     // Collision Detection: If the player chooses the Right route on the pathway in cutscene 2, call the level2 method.
-    if (imgDadMedium_X1 >= 601 && imgDadMedium_Y1 <= 0 && frameCount >= 720) {
+    if (imgDadMedium_X1 >= 601 && imgDadMedium_Y1 <= 0) {
       level2();
     }
     
