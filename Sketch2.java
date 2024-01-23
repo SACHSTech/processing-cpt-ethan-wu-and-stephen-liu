@@ -230,8 +230,8 @@ public class Sketch2 extends PApplet {
     background(3, 248, 252);
 
   // Call each level
-    //level1();
-    level3();
+    level1();
+    //level3();
     //cutScene4();
     //level5();
   }
