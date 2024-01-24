@@ -702,8 +702,8 @@ public class Sketch1 extends PApplet {
     fill(0);
     textSize(40);
     textAlign(CENTER, CENTER);
-    text("HINT: CLICK & HOLD MOUSE", width / 2, 50);
-    text("OVER THE SIGN WHILE NEAR SIGN", width / 2, 100);
+    text("HINT: CLICK & HOLD MOUSE OVER SIGN", width / 2, 50);
+    text("R TO MOVE, BACKSPACE TO JUMP", width / 2, 100);
     text("DEFEAT JOE HAM USING THE DEVICE", width / 2, 150);
     text("REACH THE DEVICE AND PUT MOUSE CURSOR OVER IT", width/ 2, 200);
 
